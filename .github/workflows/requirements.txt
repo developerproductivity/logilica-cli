@@ -1,0 +1,7 @@
+autoflake
+black
+coverage
+docformatter
+flake8
+html2text
+isort
