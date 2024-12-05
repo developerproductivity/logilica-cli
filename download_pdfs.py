@@ -31,7 +31,6 @@ def run(playwright: Playwright) -> None:
     # Cycle though list of teams dashboards to download a pdf for each team
     for team, dashboards in teams_data["teams"].items():
         for dashboard, options in dashboards["team_dashboards"].items():
-            print("loop")
             page.get_by_role("link", name=dashboard).click()
             page.get_by_role("button", name="Export PDF").click()
             # Handle download
