@@ -20,11 +20,8 @@ def run(playwright: Playwright) -> None:
 
     # Fill the login form using environment variables
     page.get_by_role("button", name="Log in With Email").click()
-    page.locator("#domain").click()
     page.locator("#domain").fill(os.getenv("LOGILICA_DOMAIN"))
-    page.locator("#email").click()
     page.locator("#email").fill(os.getenv("LOGILICA_EMAIL"))
-    page.locator("#password").click()
     page.locator("#password").fill(os.getenv("LOGILICA_PASSWORD"))
 
     # Submit the form
