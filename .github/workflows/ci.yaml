@@ -13,6 +13,6 @@ on:
 jobs:
   lint_and_test:
     name: lint and test
-    uses: developerproductivity/logilica-weekly-report/.github/workflows/python_lint_and_test.yaml@add-CI
+    uses: developerproductivity/logilica-weekly-report/.github/workflows/python_lint_and_test.yaml@main
     with:
       python_versions: ${{ vars.DEVELOPERPRODUCTIVITY_PYTHON_VERSIONS }}
