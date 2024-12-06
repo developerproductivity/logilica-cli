@@ -11,7 +11,7 @@ Environment variables must be set for `LOGILICA_DOMAIN`, `LOGILICA_EMAIL`, and
 `LOGILICA_PASSWORD`, the corresponding values can be obtained from Bitwarden.
 
 To run the script checkout the git repo and to setup your environment run 
-`pip install -r requirements.txt` 
+`pip install -r src/requirements.txt` 
 
 To run in debug mode:
 `PWDEBUG=1 python3 download_pdfs.py`. For mode details on running and debugging 
