@@ -29,18 +29,17 @@ jobs:
       - name: Run python style and linting tools
         run: |
           pip install autoflake black docformatter flake8 isort
-          mll=88  # Maximum line length
           err=0
           echo autoflake:
           autoflake --check --remove-all-unused-imports --remove-unused-variables . || err=$?
           echo black:
-          black --check --line-length $mll . || err=$?
+          black --check . || err=$?
           echo docformatter:
           docformatter --check --recursive --black --wrap-descriptions 79 --wrap-summaries 79 . || err=$?
           echo flake8:
-          flake8 --max-line-length $mll . || err=$?
+          flake8 . || err=$?
           echo isort:
-          isort --check --profile black --line-length $mll . || err=$?
+          isort --check . || err=$?
           exit $err
       - name: Run tests with coverage
         run: |
