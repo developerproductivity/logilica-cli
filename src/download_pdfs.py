@@ -1,7 +1,7 @@
 import os
 
-import yaml
 from playwright.sync_api import Playwright, sync_playwright
+import yaml
 
 
 def run(playwright: Playwright) -> None:
