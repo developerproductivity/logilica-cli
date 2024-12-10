@@ -14,8 +14,16 @@ class MyTestCase(unittest.TestCase):
             "config": {"Download_path": "tests/fixtures/"},
         }
         result = get_pdf_objects(config)
-        self.assertEqual(1, len(result["Mock Team"]["Mock Team Dashboard"]["text"]))
-        self.assertEqual(4, len(result["Mock Team"]["Mock Team Dashboard"]["images"]))
+        self.assertEqual(
+            3,
+            len(result["Mock Team"]["Mock Team Dashboard"]["text"]),
+            "Unexpected number of text sections found.",
+        )
+        self.assertEqual(
+            5,
+            len(result["Mock Team"]["Mock Team Dashboard"]["images"]),
+            "Unexpected number of images sections found.",
+        )
 
 
 if __name__ == "__main__":
