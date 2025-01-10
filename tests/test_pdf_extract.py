@@ -1,6 +1,6 @@
 import unittest
 
-from src.pdf_extract import get_pdf_objects
+from logilica_weekly_report.pdf_extract import get_pdf_objects
 
 
 class MyTestCase(unittest.TestCase):
