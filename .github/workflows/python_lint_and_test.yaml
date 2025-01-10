@@ -28,14 +28,13 @@ jobs:
           python -m pip install -r requirements.txt -r tests/requirements.txt -r .github/workflows/requirements.txt
       - name: Run python style and linting tools
         run: |
-          pip install autoflake black docformatter flake8 isort
           err=0
           echo autoflake:
-          autoflake --check --remove-all-unused-imports --remove-unused-variables . || err=$?
+          autoflake --check-diff . || err=$?
           echo black:
           black --check . || err=$?
           echo docformatter:
-          docformatter --check --recursive --black --wrap-descriptions 79 --wrap-summaries 79 . || err=$?
+          docformatter . || err=$?
           echo flake8:
           flake8 . || err=$?
           echo isort:
