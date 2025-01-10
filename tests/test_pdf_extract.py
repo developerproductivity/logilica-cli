@@ -8,7 +8,7 @@ class MyTestCase(unittest.TestCase):
         config = {
             "teams": {
                 "Mock Team": {
-                    "team_dashboards": {"Mock Team Dashboard": {"Filename": "test.pdf"}}
+                    "team_dashboards": {"Mock Team Dashboard": {"Filename": "sample_report.pdf"}}
                 }
             },
             "config": {"Download_path": "tests/fixtures/"},
