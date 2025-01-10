@@ -69,7 +69,9 @@ def cli(
 ) -> None:
     """A tool for fetching Logilica reports, extracting their contents, and
     adding them to a Google Doc.
+
     \f
+
     The main function for the `logilica-weekly-report` tool
 
     Using the Click support, we parse the command line, extract the

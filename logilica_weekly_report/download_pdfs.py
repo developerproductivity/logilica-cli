@@ -18,7 +18,7 @@ def check_download_setup() -> Optional[str]:
 
 
 def download_pdfs(teams_config: dict[str, any], download_path: pathlib.Path) -> None:
-    """Download a PDF file for each team's report using the Logilica Web UI"""
+    """Download a PDF file for each team's report using the Logilica Web UI."""
     with sync_playwright() as playwright:
         with playwright.chromium.launch(headless=True) as browser:
             with browser.new_context(accept_downloads=True) as context:
@@ -41,7 +41,9 @@ def download_pdfs(teams_config: dict[str, any], download_path: pathlib.Path) -> 
 def export_pdfs(
     teams_config: dict[str, any], page: Page, download_path: pathlib.Path
 ) -> None:
-    """Cycle though the list of team dashboards to download a PDF for each team"""
+    """Cycle though the list of team dashboards to download a PDF for each
+    team.
+    """
     for team, dashboards in teams_config.items():
         for dashboard, options in dashboards["team_dashboards"].items():
             logging.info("Downloading '%s' for %s", dashboard, team)
