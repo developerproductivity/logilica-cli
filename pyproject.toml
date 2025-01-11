@@ -26,7 +26,7 @@ include = '\.pyi?$'
 [tool.docformatter]
 black = true
 close-quotes-on-newline = true
-exclude = "build"
+exclude = ["build"]
 recursive = true
 wrap-descriptions = 79
 wrap-summaries = 79
