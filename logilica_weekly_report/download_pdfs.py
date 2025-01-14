@@ -32,6 +32,10 @@ def download_pdfs(teams_config: dict[str, any], download_path: pathlib.Path) -> 
                 page.locator("#email").fill(os.getenv("LOGILICA_EMAIL"))
                 page.locator("#password").fill(os.getenv("LOGILICA_PASSWORD"))
                 page.get_by_role("button", name="Login").click()
+
+                if page.url == LOGILICA_LOGIN:
+                    logging.error("Login failed")
+                    raise ValueError("Login credentials rejected")
                 logging.debug("Login to Logilica complete")
 
                 page.get_by_role("link", name="Custom Reports").click()

@@ -19,13 +19,14 @@ Credentials for accessing Logilica are provided by the environment variables,
 Developer Practices Team:  the appropriate values for the bot account can be
 obtained from the Bitwarden vault.)
 
-To run the script, check out the Git repo and run:  ```pip install .```  We
-recommend doing this inside a [virtual environment](https://docs.python.org/3/library/venv.html).
+To run the script, check out the Git repo and run:  ```pip install -r requirements.txt .```
+We recommend doing this inside a [virtual environment](https://docs.python.org/3/library/venv.html).
 (If you are doing development on the tool, you may want to specify `-e` in the
 `pip install` command.)  After installing the tool, you also need to install
 the browser which it uses to interact with the Logilica web UI:
 ```playwright install chromium```  (For details on debugging the web interactions,
-see the [Playwright documentation](https://playwright.dev/python/docs/running-tests).)
+see the `--pwdebug` option in the command help, below, and the
+[Playwright documentation](https://playwright.dev/python/docs/running-tests).)
 
 The PDF files containing the downloaded Logilica reports are stored in a
 temporary directory which is created if it does not exist; if it was created by

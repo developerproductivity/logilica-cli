@@ -78,6 +78,8 @@ def cli(
     configuration information, store some of it in the Click context, and then
     get about business.
     """
+    exit_status = 0
+
     if verbose:
         logging.getLogger().setLevel(logging.INFO if verbose == 1 else logging.DEBUG)
         logging.debug("Debug mode enabled")
@@ -112,12 +114,15 @@ def cli(
         download_pdfs(configuration["teams"], download_dir_path)
         pdf_items = get_pdf_objects(configuration["teams"], download_dir_path)
         update_gdoc(pdf_items, configuration["config"])
+    except Exception as err:
+        click.echo(err, err=True)
+        exit_status = 1
     finally:
         if remove_downloads:
             logging.info("removing downloads directory")
             shutil.rmtree(download_dir_path)
 
-    context.exit()
+    context.exit(exit_status)
 
 
 if __name__ == "__main__":

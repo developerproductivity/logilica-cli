@@ -13,7 +13,8 @@ class MyTestCase(unittest.TestCase):
                 }
             }
         }
-        result = get_pdf_objects(config, pathlib.Path("tests/fixtures/"))
+
+        result = get_pdf_objects(config, pathlib.Path(__file__).parent / "fixtures")
         self.assertEqual(
             3,
             len(result["Mock Team"]["Mock Team Dashboard"]["text"]),
