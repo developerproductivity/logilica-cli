@@ -3,7 +3,7 @@ import os
 import pathlib
 from typing import Optional
 
-from playwright.sync_api import Page, sync_playwright
+from playwright.sync_api import expect, Page, sync_playwright
 
 LOGILICA_LOGIN = "https://logilica.io/login"
 
@@ -32,8 +32,9 @@ def download_pdfs(teams_config: dict[str, any], download_path: pathlib.Path) -> 
                 page.locator("#email").fill(os.getenv("LOGILICA_EMAIL"))
                 page.locator("#password").fill(os.getenv("LOGILICA_PASSWORD"))
                 page.get_by_role("button", name="Login").click()
-
-                if page.url == LOGILICA_LOGIN:
+                try:
+                    expect(page).not_to_have_url(LOGILICA_LOGIN)
+                except AssertionError:
                     logging.error("Login failed")
                     raise ValueError("Login credentials rejected")
                 logging.debug("Login to Logilica complete")
