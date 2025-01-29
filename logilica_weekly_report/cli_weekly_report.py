@@ -5,7 +5,9 @@ import shutil
 
 import click
 
-from logilica_weekly_report.download_pdfs import download_pdfs
+from logilica_weekly_report.page_login import LoginPage
+from logilica_weekly_report.page_dashboard import DashboardPage
+from logilica_weekly_report.playwright_session import PlaywrightSession
 from logilica_weekly_report.pdf_extract import get_pdf_objects
 from logilica_weekly_report.update_gdoc import update_gdoc
 
@@ -73,11 +75,17 @@ def weekly_report(
         logging.info("download directory, %s, created", download_dir_path)
 
     try:
-        download_pdfs(
-            teams=configuration["teams"],
-            credentials=credentials,
-            download_dir_path=download_dir_path,
-        )
+        with PlaywrightSession() as page:
+            # Fill the login form using environment variables
+            login_page = LoginPage(page=page, credentials=credentials)
+            login_page.navigate()
+            login_page.login()
+
+            dashboard_page = DashboardPage(page=page)
+            dashboard_page.download_team_dashboards(
+                teams=configuration["teams"], base_dir_path=download_dir_path
+            )
+
         pdf_items = get_pdf_objects(
             teams=configuration["teams"], download_dir_path=download_dir_path
         )
