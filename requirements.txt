@@ -7,3 +7,4 @@ PyMuPDF~=1.25.2
 protobuf~=5.29.3
 pyyaml~=6.0.2
 yattag~=1.16.1
+jsonschema~=4.23.0

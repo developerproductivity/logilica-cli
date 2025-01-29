@@ -5,6 +5,9 @@ import pathlib
 import click
 import yaml
 
+from jsonschema import validate, ValidationError
+
+from logilica_weekly_report.configuration_schema import schema
 from logilica_weekly_report.cli_weekly_report import weekly_report
 
 # Default values for command options
@@ -105,7 +108,13 @@ def cli(
     """
     with open(config_file_path, "r") as yaml_file:
         configuration = yaml.safe_load(yaml_file)
-        logging.debug("configuration: %s", str(configuration))
+        try:
+            validate(instance=configuration, schema=schema)
+            logging.debug("configuration: %s", str(configuration))
+        except ValidationError as e:
+            logging.error("configuration: %s", str(configuration))
+            click.echo(f"Invalid YAML configuration: {e}", err=True)
+            context.exit(5)
 
     """Main command group to handle common parameters"""
     context.ensure_object(dict)
