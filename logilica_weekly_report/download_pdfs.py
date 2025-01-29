@@ -1,46 +1,29 @@
 import logging
-import os
 import pathlib
-from typing import Optional
+from typing import Any
 
-from playwright.sync_api import expect, Page, sync_playwright
+from playwright.sync_api import Page
 
-LOGILICA_LOGIN = "https://logilica.io/login"
-
-
-def check_download_setup() -> Optional[str]:
-    """Check that we have what we need; return an error message on failure or
-    None on success.
-    """
-    for e in ("LOGILICA_DOMAIN", "LOGILICA_EMAIL", "LOGILICA_PASSWORD"):
-        if not os.getenv(e):
-            return f"Environment variable '{e}' is not set"
+from logilica.playwright_session import PlaywrightSession
+from logilica.pages.login_page import LoginPage
 
 
-def download_pdfs(teams_config: dict[str, any], download_path: pathlib.Path) -> None:
+def download_pdfs(
+    teams: dict[str, Any],
+    credentials: dict[str, Any],
+    download_dir_path: pathlib.Path,
+) -> None:
     """Download a PDF file for each team's report using the Logilica Web UI."""
-    with sync_playwright() as playwright:
-        with playwright.chromium.launch(headless=True) as browser:
-            with browser.new_context(accept_downloads=True) as context:
-                page = context.new_page()
+    with PlaywrightSession() as page:
+        # Fill the login form using environment variables
+        logging.info("Logging into Logilica")
 
-                # Fill the login form using environment variables
-                logging.info("Logging into Logilica")
-                page.goto(LOGILICA_LOGIN)
-                page.get_by_role("button", name="Log in With Email").click()
-                page.locator("#domain").fill(os.getenv("LOGILICA_DOMAIN"))
-                page.locator("#email").fill(os.getenv("LOGILICA_EMAIL"))
-                page.locator("#password").fill(os.getenv("LOGILICA_PASSWORD"))
-                page.get_by_role("button", name="Login").click()
-                try:
-                    expect(page).not_to_have_url(LOGILICA_LOGIN)
-                except AssertionError:
-                    logging.error("Login failed")
-                    raise ValueError("Login credentials rejected")
-                logging.debug("Login to Logilica complete")
+        login_page = LoginPage(page=page, configuration=teams, credentials=credentials)
+        login_page.open()
+        login_page.login()
 
-                page.get_by_role("link", name="Custom Reports").click()
-                export_pdfs(teams_config, page, download_path)
+        page.get_by_role("link", name="Custom Reports").click()
+        export_pdfs(teams, page, download_dir_path)
 
 
 def export_pdfs(

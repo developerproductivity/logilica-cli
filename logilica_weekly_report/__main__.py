@@ -1,29 +1,40 @@
 import logging
 import os
 import pathlib
-import shutil
 
 import click
 import yaml
 
-from logilica_weekly_report.download_pdfs import check_download_setup, download_pdfs
-from logilica_weekly_report.pdf_extract import get_pdf_objects
-from logilica_weekly_report.update_gdoc import (
-    generate_html,
-    get_google_credentials,
-    upload_doc,
-)
+from logilica_weekly_report.cli_weekly_report import weekly_report
 
 # Default values for command options
 DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
-DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 # Set up logging and create the Bottle application
 logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WARNING)
 
 
-@click.command(
-    epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
+@click.group()
+@click.option(
+    "--username",
+    "-u",
+    envvar="LOGILICA_EMAIL",
+    required=True,
+    help="Logilica User Email. You can also pass it using LOGILICA_EMAIL env variable.",
+)
+@click.option(
+    "--password",
+    "-p",
+    envvar="LOGILICA_PASSWORD",
+    required=True,
+    help="Logilica User Password. You can also pass it using LOGILICA_EMAIL env variable.",
+)
+@click.option(
+    "--domain",
+    "-d",
+    envvar="LOGILICA_DOMAIN",
+    required=True,
+    help="Logilica Domain. You can also pass it using LOGILICA_EMAIL env variable.",
 )
 @click.option(
     "--config",
@@ -35,26 +46,6 @@ logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WAR
     default=DEFAULT_CONFIG_FILE,
     show_default=True,
     help="Path to configuration file",
-)
-@click.option(
-    "--downloads",
-    "-d",
-    "download_dir_path",
-    type=click.Path(
-        writable=True, file_okay=False, path_type=pathlib.Path, resolve_path=True
-    ),
-    default=DEFAULT_DOWNLOADS_DIR,
-    show_default=True,
-    help="Path to a directory to receive downloaded files"
-    " (will be created if it doesn't exist; will be deleted if created)",
-)
-@click.option(
-    "--output",
-    "-O",
-    type=click.Choice(["gdoc", "html"], case_sensitive=False),
-    default="gdoc",
-    show_default=True,
-    help="Output format -- HTML to stdout or stored as a Google Doc on Google Drive",
 )
 @click.option(
     "--pwdebug",
@@ -75,23 +66,22 @@ logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WAR
 def cli(
     context: click.Context,
     config_file_path: pathlib.Path,
-    download_dir_path: pathlib.Path,
-    output: str,
+    domain: str,
+    username: str,
+    password: str,
     pwdebug: bool,
     verbose: int,
 ) -> None:
-    """A tool for fetching Logilica reports, extracting their contents, and
-    adding them to a Google Doc.
+    """A tool to automate UI interactions with Logilica.
 
     \f
 
-    The main function for the `logilica-weekly-report` tool
+    The main function for the `logilica` tool
 
     Using the Click support, we parse the command line, extract the
     configuration information, store some of it in the Click context, and then
-    get about business.
+    pass it to other commands
     """
-    exit_status = 0
 
     if verbose:
         logging.getLogger().setLevel(logging.INFO if verbose == 1 else logging.DEBUG)
@@ -102,51 +92,35 @@ def cli(
         os.environ["PWDEBUG"] = "1"
         logging.debug("Playwright debug mode enabled")
 
-    logging.info(
-        "config path: '%s';\n\tdownload path: '%s'", config_file_path, download_dir_path
-    )
-
-    err = check_download_setup()
-    if err:
-        click.echo(err, err=True)
+    """
+    if not domain:
+        click.echo(f"Logilica domain was not provided", err=True)
         context.exit(2)
-
+    if not username:
+        click.echo(f"Logilica username was not provided", err=True)
+        context.exit(2)
+    if not password:
+        click.echo(f"Logilica password was not provided", err=True)
+        context.exit(2)
+    """
     with open(config_file_path, "r") as yaml_file:
         configuration = yaml.safe_load(yaml_file)
         logging.debug("configuration: %s", str(configuration))
 
-    if not configuration.get("config"):
-        configuration["config"] = {}
+    """Main command group to handle common parameters"""
+    context.ensure_object(dict)
+    context.obj["verbose"] = verbose
+    context.obj["pwdebug"] = pwdebug
+    context.obj["configuration"] = configuration
+    context.obj["credentials"] = {
+        "username": username,
+        "password": password,
+        "domain": domain,
+    }
 
-    remove_downloads = not download_dir_path.exists()
-    logging.debug(
-        "download directory %s", "does not exist" if remove_downloads else "exists"
-    )
-    if remove_downloads:
-        os.mkdir(download_dir_path)
-        logging.info("download directory, %s, created", download_dir_path)
 
-    # Get the credentials now to enable "failing early".
-    google_credentials = get_google_credentials(configuration["config"])
-
-    try:
-        download_pdfs(configuration["teams"], download_dir_path)
-        pdf_items = get_pdf_objects(configuration["teams"], download_dir_path)
-        doc = generate_html(pdf_items)
-        if output == "gdoc":
-            upload_doc(doc.getvalue(), google_credentials, configuration["config"])
-        else:
-            click.echo(doc.getvalue(), err=False)
-    except Exception as err:
-        click.echo(err, err=True)
-        exit_status = 1
-    finally:
-        if remove_downloads:
-            logging.info("removing downloads directory")
-            shutil.rmtree(download_dir_path)
-
-    context.exit(exit_status)
-
+for command in [weekly_report]:
+    cli.add_command(command)
 
 if __name__ == "__main__":
     cli()
