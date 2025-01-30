@@ -3,7 +3,7 @@ from datetime import datetime
 from io import BytesIO
 import logging
 from pathlib import Path
-from typing import Callable, Literal, Optional
+from typing import Callable, Literal, Optional, Union
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -172,12 +172,16 @@ def get_app_credentials_file(config: dict[str, any]) -> Path:
     )
 
 
+GPP_SIGNATURE = Callable[
+    [Optional[str], Optional[Union[str, Literal[False]]], Optional[str], bool, bool],
+    Path,
+]
+
+
 def get_info_file(
     config_string: Optional[str],
     default_file_name: Optional[str],
-    get_platform_path: Callable[
-        [str | None, str | None | Literal[False], str | None, bool, bool], Path
-    ],
+    get_platform_path: GPP_SIGNATURE,
 ) -> Path:
     """Generate the file path, based on the tool configuration with supplied
     defaults for the file name and platform directory locations, creating the
@@ -206,7 +210,6 @@ def get_info_file(
         # the default application name.
         app_name = str(ipath) if str(ipath) != "." else APPLICATION_NAME
         # noinspection PyArgumentList
-        platform_dir = get_platform_path(app_name, ensure_exists=True)
-        ipath = platform_dir / ipath
+        ipath = get_platform_path(app_name, ensure_exists=True)
     ipath /= filename if filename else default_file_name
     return ipath
