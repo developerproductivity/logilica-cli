@@ -20,21 +20,6 @@ DEFAULT_GDRIVE_FILE_TEMPLATE = "Logilica_Reports_{:%Y-%m-%d}"
 DEFAULT_TOKEN_FILE_NAME = "token.json"
 
 
-def update_gdoc(
-    pdf_items: dict[str, dict[str, bytes]], creds: Credentials, config: dict[str, any]
-):
-    """Take the set of charts and text extracted from the PDF and insert it
-    into the Google Doc.
-
-    This is accomplished by generating an HTML document and uploading it to
-    Google Drive with a MIME type of `'application/vnd.google-apps.document'`,
-    which causes Google to treat/convert it to a GDoc.  The images are inserted
-    into it as data URIs, which Google will manage appropriately.
-    """
-    doc = generate_html(pdf_items)
-    upload_doc(doc.getvalue(), creds, config)
-
-
 def generate_html(pdf_items: dict[str, dict[str, bytes]]) -> SimpleDoc:
     """Generate an HTML document from the set of charts and text extracted from
     the PDF.
@@ -55,6 +40,10 @@ def add_teams(
     tag: Callable[[str], SimpleDoc.Tag],
     text: Callable[[str], None],
 ):
+    """Add sections to the document for each team.
+
+    The dashboard images are inserted into the document as data URIs.
+    """
     for team, dashboards in pdf_items.items():
         doc.asis("<hr>")
         with tag("h2"):
@@ -70,7 +59,12 @@ def add_teams(
 
 
 def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
-    """Upload the provided in-memory HTML document to Google Drive."""
+    """Upload the provided in-memory HTML document to Google Drive.
+
+    The file is created on the Google Drive with a MIME type of
+    `'application/vnd.google-apps.document'`, which causes Google to treat it
+    as or convert it to a GDoc.
+    """
 
     filename = (
         config.get("google", {})

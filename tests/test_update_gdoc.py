@@ -7,7 +7,6 @@ import unittest
 from unittest import mock
 from unittest.mock import MagicMock
 
-from google.oauth2.credentials import Credentials
 from googleapiclient.errors import HttpError
 import platformdirs
 import yaml
@@ -21,7 +20,6 @@ from logilica_weekly_report.update_gdoc import (
     get_app_credentials_file,
     get_google_credentials,
     get_token_file,
-    update_gdoc,
     upload_doc,
 )
 
@@ -342,14 +340,6 @@ class TestUpdateGDoc(unittest.TestCase):
                     self.assertTrue(
                         f'<img src="data:image/png;base64,{image_data}' in result
                     )
-
-    @mock.patch(CUT + "generate_html")
-    @mock.patch(CUT + "upload_doc")
-    def test_update_gdoc(self, mock_upload_doc, mock_generate_html):
-        """There isn't really anything to test for this function, but running
-        this test completes our coverage.
-        """
-        update_gdoc({}, Credentials(None), {})
 
 
 if __name__ == "__main__":
