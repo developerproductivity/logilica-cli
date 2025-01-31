@@ -45,7 +45,7 @@ def generate_html(pdf_items: dict[str, dict[str, bytes]]) -> SimpleDoc:
         with tag("body"):
             with tag("h1"):
                 text("Logilica Weekly Report")
-                add_teams(pdf_items, doc, tag, text)
+            add_teams(pdf_items, doc, tag, text)
     return doc
 
 

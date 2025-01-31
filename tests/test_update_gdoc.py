@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime, timezone
 from io import StringIO
 import logging
@@ -6,6 +7,7 @@ import unittest
 from unittest import mock
 from unittest.mock import MagicMock
 
+from google.oauth2.credentials import Credentials
 from googleapiclient.errors import HttpError
 import platformdirs
 import yaml
@@ -15,9 +17,11 @@ from logilica_weekly_report.update_gdoc import (
     DEFAULT_APP_CREDENTIALS_FILE_NAME,
     DEFAULT_GDRIVE_FILE_TEMPLATE,
     DEFAULT_TOKEN_FILE_NAME,
+    generate_html,
     get_app_credentials_file,
     get_google_credentials,
     get_token_file,
+    update_gdoc,
     upload_doc,
 )
 
@@ -301,12 +305,51 @@ class TestUpdateGDoc(unittest.TestCase):
         handle_create.reset_mock()
         mock_status.progress.reset_mock(side_effect=True)
 
-    def test_add_teams(self):
-        pass
+    def test_generate_html(self):
+        # Test scenarios with zero, one, and two teams, and zero, one, and two
+        # dashboards.
+        scenarios = (
+            {},
+            {
+                "team1": {"team1-dashboard1": b"This is image t1d1."},
+            },
+            {
+                "team2": {"team2-dashboard1": b"This is image t2d1."},
+                "team3": {"team3-dashboard1": b"This is image t3d1."},
+            },
+            {
+                "team4": {},
+            },
+            {
+                "team5": {
+                    "team5-dashboard1": b"This is image t5d1.",
+                    "team5-dashboard2": b"This is image t5d2.",
+                },
+            },
+        )
 
-    # TODO:
-    #  - Consider adding testing for add_teams(), generate_html(), and possibly
-    #    update_gdoc().
+        for scenario in scenarios:
+            result = generate_html(scenario).getvalue()
+            self.assertTrue(
+                result.startswith(
+                    "<!DOCTYPE html><html><body><h1>Logilica Weekly Report</h1>"
+                )
+            )
+            for team, dashboards in scenario.items():
+                self.assertTrue(f"<hr><h2>{team}</h2>" in result)
+                for image in dashboards.values():
+                    image_data = base64.b64encode(image).decode()
+                    self.assertTrue(
+                        f'<img src="data:image/png;base64,{image_data}' in result
+                    )
+
+    @mock.patch(CUT + "generate_html")
+    @mock.patch(CUT + "upload_doc")
+    def test_update_gdoc(self, mock_upload_doc, mock_generate_html):
+        """There isn't really anything to test for this function, but running
+        this test completes our coverage.
+        """
+        update_gdoc({}, Credentials(None), {})
 
 
 if __name__ == "__main__":
