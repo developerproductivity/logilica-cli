@@ -3,12 +3,12 @@ import os
 import pathlib
 
 import click
+from jsonschema import validate, ValidationError
 import yaml
 
-from jsonschema import validate, ValidationError
-
-from logilica_weekly_report.configuration_schema import schema
+from logilica_weekly_report.cli_data_sources import data_sources
 from logilica_weekly_report.cli_weekly_report import weekly_report
+from logilica_weekly_report.configuration_schema import schema
 
 # Default values for command options
 DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
@@ -17,27 +17,35 @@ DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
 logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WARNING)
 
 
-@click.group()
+@click.group(
+    epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
+)
 @click.option(
     "--username",
     "-u",
     envvar="LOGILICA_EMAIL",
     required=True,
-    help="Logilica User Email. You can also pass it using LOGILICA_EMAIL env variable.",
+    show_default=True,
+    show_envvar=True,
+    help="Logilica Login Credentials: User Email",
 )
-@click.option(
+@click.password_option(
     "--password",
     "-p",
     envvar="LOGILICA_PASSWORD",
+    show_default=True,
+    show_envvar=True,
     required=True,
-    help="Logilica User Password. You can also pass it using LOGILICA_EMAIL env variable.",
+    help="Logilica Login Credentials: Password",
 )
 @click.option(
     "--domain",
     "-d",
     envvar="LOGILICA_DOMAIN",
+    show_default=True,
+    show_envvar=True,
     required=True,
-    help="Logilica Domain. You can also pass it using LOGILICA_EMAIL env variable.",
+    help="Logilica Login Credentials: Organization Name",
 )
 @click.option(
     "--config",
@@ -79,11 +87,11 @@ def cli(
 
     \f
 
-    The main function for the `logilica` tool
+    The main command group for `Logilica UI` automation tool.
 
     Using the Click support, we parse the command line, extract the
     configuration information, store some of it in the Click context, and then
-    pass it to other commands
+    pass it to other commands that interact with UI using Playwright.
     """
 
     if verbose:
@@ -95,17 +103,6 @@ def cli(
         os.environ["PWDEBUG"] = "1"
         logging.debug("Playwright debug mode enabled")
 
-    """
-    if not domain:
-        click.echo(f"Logilica domain was not provided", err=True)
-        context.exit(2)
-    if not username:
-        click.echo(f"Logilica username was not provided", err=True)
-        context.exit(2)
-    if not password:
-        click.echo(f"Logilica password was not provided", err=True)
-        context.exit(2)
-    """
     with open(config_file_path, "r") as yaml_file:
         configuration = yaml.safe_load(yaml_file)
         try:
@@ -118,17 +115,15 @@ def cli(
 
     """Main command group to handle common parameters"""
     context.ensure_object(dict)
-    context.obj["verbose"] = verbose
-    context.obj["pwdebug"] = pwdebug
     context.obj["configuration"] = configuration
-    context.obj["credentials"] = {
+    context.obj["logilica_credentials"] = {
         "username": username,
         "password": password,
         "domain": domain,
     }
 
 
-for command in [weekly_report]:
+for command in [weekly_report, data_sources]:
     cli.add_command(command)
 
 if __name__ == "__main__":

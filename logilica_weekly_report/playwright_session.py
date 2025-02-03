@@ -1,7 +1,9 @@
-from playwright.sync_api import sync_playwright, Page, BrowserContext
+from playwright.sync_api import BrowserContext, Page, sync_playwright
 
 
 class PlaywrightSession:
+    """Encapsulation of Playwright Browser for usage in Page Objects."""
+
     def __init__(self, headless=True):
         self.headless = headless
         self.browser = None

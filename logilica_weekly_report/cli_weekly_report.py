@@ -5,14 +5,10 @@ import shutil
 
 import click
 
-from logilica_weekly_report.page_login import LoginPage
 from logilica_weekly_report.page_dashboard import DashboardPage
+from logilica_weekly_report.page_login import LoginPage
+from logilica_weekly_report.pdf_extract import get_pdf_objects
 from logilica_weekly_report.playwright_session import PlaywrightSession
-from logilica_weekly_report.pdf_extract import get_pdf_objects
-from logilica_weekly_report.update_gdoc import update_gdoc
-
-from logilica_weekly_report.download_pdfs import check_download_setup, download_pdfs
-from logilica_weekly_report.pdf_extract import get_pdf_objects
 from logilica_weekly_report.update_gdoc import (
     generate_html,
     get_google_credentials,
@@ -23,9 +19,7 @@ from logilica_weekly_report.update_gdoc import (
 DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 
-@click.command(
-    epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
-)
+@click.command()
 @click.option(
     "--downloads",
     "-d",
@@ -48,23 +42,40 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 )
 @click.pass_context
 def weekly_report(
-    context: click.Context,
-    download_dir_path: pathlib.Path,
+    context: click.Context, download_dir_path: pathlib.Path, output: str
 ) -> None:
-    """A tool for fetching Logilica reports, extracting their contents, and
-    adding them to a Google Doc.
+    """Downloads and processes weekly report for teams specified in the
+    configuration.
 
     \f
 
-    The main function for the `logilica-weekly-report` tool
+    Downloads Logilica dashboards as PDFs and parses the content into
+    a single file.
 
-    Using the Click support, we parse the command line, extract the
-    configuration information, store some of it in the Click context, and then
-    get about business.
+    Configuration example snippet:
+    \b
+    >>>
+    ...
+    teams:
+      Team 1:
+        team_dashboards:
+          Board 1:
+            Filename: board1_report.pdf
+        jira_projects: issues.redhat.com/FOO
+      Team 2:
+        team_dashboards:
+          Board 1:
+            Filename: board2_report.pdf
+        jira_projects: issues.redhat.com/BAR
+        ...
+    ...
     """
     exit_status = 0
     configuration = context.obj["configuration"]
-    credentials = context.obj["credentials"]
+    logilica_credentials = context.obj["logilica_credentials"]
+
+    # Get the credentials now to enable "failing early".
+    google_credentials = get_google_credentials(configuration["config"])
 
     remove_downloads = not download_dir_path.exists()
     logging.debug(
@@ -77,7 +88,7 @@ def weekly_report(
     try:
         with PlaywrightSession() as page:
             # Fill the login form using environment variables
-            login_page = LoginPage(page=page, credentials=credentials)
+            login_page = LoginPage(page=page, credentials=logilica_credentials)
             login_page.navigate()
             login_page.login()
 
@@ -89,7 +100,11 @@ def weekly_report(
         pdf_items = get_pdf_objects(
             teams=configuration["teams"], download_dir_path=download_dir_path
         )
-        update_gdoc(pdf_items, configuration["config"])
+        doc = generate_html(pdf_items)
+        if output == "gdoc":
+            upload_doc(doc.getvalue(), google_credentials, configuration["config"])
+        else:
+            click.echo(doc.getvalue(), err=False)
     except Exception as err:
         click.echo(err, err=True)
         exit_status = 1

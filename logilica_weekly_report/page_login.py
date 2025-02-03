@@ -1,10 +1,12 @@
 import logging
-
 from typing import Any
+
 from playwright.sync_api import expect, Page
 
 
 class LoginPage:
+    """Page Object to handle interactions with Login Page."""
+
     LOGILICA_LOGIN = "https://logilica.io/login"
 
     def __init__(self, page: Page, credentials: dict[str, Any]):
@@ -21,7 +23,6 @@ class LoginPage:
 
     def login(self):
 
-        # Fill the login form using environment variables
         logging.info("Logging into Logilica")
         self.email_login_button.click()
         self.domain_field.fill(self.credentials["domain"])
