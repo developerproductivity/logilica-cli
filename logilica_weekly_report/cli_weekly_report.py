@@ -103,7 +103,10 @@ def weekly_report(
         )
         doc = generate_html(pdf_items)
         if output == "gdoc":
-            upload_doc(doc.getvalue(), google_credentials, configuration["config"])
+            url = upload_doc(
+                doc.getvalue(), google_credentials, configuration["config"]
+            )
+            click.echo(f"Report uploaded to {url}")
         else:
             click.echo(doc.getvalue(), err=False)
     except Exception as err:

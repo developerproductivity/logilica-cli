@@ -68,6 +68,8 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
     The file is created on the Google Drive with a MIME type of
     `'application/vnd.google-apps.document'`, which causes Google to treat it
     as or convert it to a GDoc.
+
+    Returns the URL for the resulting GDoc.
     """
 
     filename = (
@@ -105,7 +107,7 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
         logging.error("An error occurred uploading %s: %s", filename, error)
         raise
 
-    return response.get("id")
+    return f"https://docs.google.com/document/d/{response.get("id")}"
 
 
 def get_google_credentials(config: dict[str, any]) -> Credentials:
