@@ -112,10 +112,16 @@ def get_google_credentials(config: dict[str, any]) -> Credentials:
     new token is written to the cache file before returning.
 
     The Google OAuth 2.0 Client "app" configuration is constructed from a local
-    credentials file (which can be downloaded from https://console.developers.google.com,
-    under "Credentials").  It is located using the default mechanisms (e.g., in
-    ${HOME}/.config/gcloud/application_default_credentials.json).  (Currently,
-    the scope of the authorization is limited to the Google Drive APIs.)
+    credentials file (which can be downloaded from the "Credentials" link in
+    the sidebar on https://console.developers.google.com).  (Currently, the
+    scope of the authorization is limited to the Google Drive APIs.)
+
+    The names and locations of the credentials files can be specified in the
+    tool configuration using the keys `token_file` and `app_credentials_file`
+    under "config" -> "google".  The defaults for the file names are defined
+    at the top of this file.  The default locations are conventional for the
+    platform where the tool is run (the user "cache directory" and the user
+    "config directory", respectively) -- see https://platformdirs.readthedocs.io/.
     """
     token_file = get_token_file(config)
     logging.debug("Google OAuth token file: %s", token_file)
