@@ -107,7 +107,7 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
         logging.error("An error occurred uploading %s: %s", filename, error)
         raise
 
-    return f"https://docs.google.com/document/d/{response.get("id")}"
+    return f"https://docs.google.com/document/d/{response.get('id')}"
 
 
 def get_google_credentials(config: dict[str, any]) -> Credentials:
