@@ -74,8 +74,10 @@ def weekly_report(
     configuration = context.obj["configuration"]
     logilica_credentials = context.obj["logilica_credentials"]
 
-    # Get the credentials now to enable "failing early".
-    google_credentials = get_google_credentials(configuration["config"])
+    # If needed, get the credentials now to enable "failing early".
+    google_credentials = (
+        get_google_credentials(configuration["config"]) if output == "gdoc" else None
+    )
 
     remove_downloads = not download_dir_path.exists()
     logging.debug(
