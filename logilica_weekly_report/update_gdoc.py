@@ -31,6 +31,10 @@ def generate_html(pdf_items: dict[str, dict[str, bytes]]) -> SimpleDoc:
             with tag("h1"):
                 text("Logilica Weekly Report")
             add_teams(pdf_items, doc, tag, text)
+
+            # Append something visible, so that GDocs doesn't truncate the
+            # last dashboard image.
+            doc.asis("<hr>")
     return doc
 
 
