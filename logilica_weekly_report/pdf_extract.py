@@ -64,6 +64,7 @@ def get_report_image(pdf: pymupdf.Document) -> bytes:
     class PageArea(NamedTuple):
         offset: int
         length: int
+        pixmap: pymupdf.Pixmap
 
     # Calculate and record the length required for each page; track the total
     # length.
@@ -73,12 +74,12 @@ def get_report_image(pdf: pymupdf.Document) -> bytes:
         offset = REPORT_HEADER_HEIGHT if i == 0 else PAGE_HEADER_HEIGHT
         pix: pymupdf.Pixmap = page.get_pixmap(dpi=IMAGE_DPI)
         pl = strip_trailing_space(pix) - offset
-        page_areas.append(PageArea(offset, pl))
+        page_areas.append(PageArea(offset, pl, pix))
         total_length += pl
 
     # Create the target pixmap based on the characteristics of the first page
     # and the total length of all the pages.
-    base_pixmap: pymupdf.Pixmap = pdf[0].get_pixmap(dpi=IMAGE_DPI)
+    base_pixmap = page_areas[0].pixmap
     d_image = pymupdf.Pixmap(
         base_pixmap.colorspace,
         (0, 0, base_pixmap.width, total_length),
@@ -88,10 +89,10 @@ def get_report_image(pdf: pymupdf.Document) -> bytes:
     # Locate each page region and copy it to the appropriate place in the
     # destination pixmap.
     dest_start = 0
-    for i, page in enumerate(iter(pdf)):
-        pix: pymupdf.Pixmap = page.get_pixmap(dpi=IMAGE_DPI)
-        pix.set_origin(0, dest_start - page_areas[i].offset)
-        dest_end = dest_start + page_areas[i].length
+    for pa in page_areas:
+        pix = pa.pixmap
+        pix.set_origin(0, dest_start - pa.offset)
+        dest_end = dest_start + pa.length
         dest_rect = (0, dest_start, pix.width, dest_end)
         d_image.copy(pix, dest_rect)
         dest_start = dest_end
