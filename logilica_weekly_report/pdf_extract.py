@@ -11,11 +11,9 @@ import pymupdf
 # Choosing a higher image DPI produces a finer quality image but a larger
 # amount of data; it also affects the sizes of the headers and footers; so,
 # everything is parameterized by SCALE.
-SCALE = 20
-IMAGE_DPI = 30 * SCALE  # Resolution for images
-REPORT_HEADER_HEIGHT = 39 * SCALE + 4  # (256 + 134)@300dpi + fudge
-PAGE_HEADER_HEIGHT = 5 * SCALE
-PAGE_FOOTER_HEIGHT = 18 * SCALE
+REPORT_HEADER_HEIGHT = 94
+PAGE_HEADER_HEIGHT = 12
+PAGE_FOOTER_HEIGHT = 43
 
 
 def get_pdf_objects(
@@ -72,7 +70,7 @@ def get_report_image(pdf: pymupdf.Document) -> bytes:
     total_length = 0
     for i, page in enumerate(iter(pdf)):
         offset = REPORT_HEADER_HEIGHT if i == 0 else PAGE_HEADER_HEIGHT
-        pix: pymupdf.Pixmap = page.get_pixmap(dpi=IMAGE_DPI)
+        pix: pymupdf.Pixmap = page.get_pixmap()
         pl = strip_trailing_space(pix) - offset
         page_areas.append(PageArea(offset, pl, pix))
         total_length += pl
@@ -96,6 +94,15 @@ def get_report_image(pdf: pymupdf.Document) -> bytes:
         dest_rect = (0, dest_start, pix.width, dest_end)
         d_image.copy(pix, dest_rect)
         dest_start = dest_end
+
+    logging.debug(
+        "Resulting image size (%d dpi):  %d x %d (pixels);   %0.2f x %0.2f (inches)",
+        d_image.xres,
+        d_image.width,
+        d_image.height,
+        d_image.width / d_image.xres,
+        d_image.height / d_image.yres,
+    )
     return d_image.tobytes(output="png")
 
 
