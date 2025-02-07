@@ -33,6 +33,15 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
     " (will be created if it doesn't exist; will be deleted if created)",
 )
 @click.option(
+    "--input",
+    "-I",
+    "source",  # parameter name, since Python reserves "input"
+    type=click.Choice(["logilica", "local"], case_sensitive=False),
+    default="logilica",
+    show_default=True,
+    help="Input source -- download from Logilica or use pre-downloaded files",
+)
+@click.option(
     "--output",
     "-O",
     type=click.Choice(["gdoc", "html"], case_sensitive=False),
@@ -42,7 +51,7 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 )
 @click.pass_context
 def weekly_report(
-    context: click.Context, download_dir_path: pathlib.Path, output: str
+    context: click.Context, download_dir_path: pathlib.Path, source: str, output: str
 ) -> None:
     """Downloads and processes weekly report for teams specified in the
     configuration.
@@ -88,15 +97,16 @@ def weekly_report(
         logging.info("download directory, %s, created", download_dir_path)
 
     try:
-        with PlaywrightSession() as page:
-            login_page = LoginPage(page=page, credentials=logilica_credentials)
-            login_page.navigate()
-            login_page.login()
+        if source == "logilica":
+            with PlaywrightSession() as page:
+                login_page = LoginPage(page=page, credentials=logilica_credentials)
+                login_page.navigate()
+                login_page.login()
 
-            dashboard_page = DashboardPage(page=page)
-            dashboard_page.download_team_dashboards(
-                teams=configuration["teams"], base_dir_path=download_dir_path
-            )
+                dashboard_page = DashboardPage(page=page)
+                dashboard_page.download_team_dashboards(
+                    teams=configuration["teams"], base_dir_path=download_dir_path
+                )
 
         pdf_items = get_pdf_objects(
             teams=configuration["teams"], download_dir_path=download_dir_path
