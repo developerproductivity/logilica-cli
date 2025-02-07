@@ -75,6 +75,14 @@ def get_report_image(pdf: pymupdf.Document) -> bytes:
         page_areas.append(PageArea(offset, pl, pix))
         total_length += pl
 
+    # Google Docs have a maximum image size of 2500 pixels in either dimension,
+    # so, we need to resize the result accordingly.
+    if total_length > 2500:
+        logging.warning(
+            "Dashboard image height (%s pixels) exceeds the Google Docs limit of 2500",
+            total_length,
+        )
+
     # Create the target pixmap based on the characteristics of the first page
     # and the total length of all the pages.
     base_pixmap = page_areas[0].pixmap
