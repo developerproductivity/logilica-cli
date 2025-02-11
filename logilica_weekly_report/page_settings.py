@@ -54,6 +54,77 @@ class SettingsPage:
             self.page.get_by_role("heading", name=f"{connector} Settings")
         ).to_be_visible()
 
+    def wait_for_available_repositories(
+        self,
+        repositories: list[str],
+    ) -> Generator[str, None, None]:
+        """Waits for Integration / Settings / Available Repositories and
+        aftewards yields the list of repositories.
+        """
+        if repositories:
+            logging.debug(
+                "Waiting up to %d milliseconds for membership repositories to appear on the screen prior starting adding them.",
+                self.AVAILABLE_REPOSITORY_TIMEOUT,
+            )
+            self.page.wait_for_timeout(self.AVAILABLE_REPOSITORY_TIMEOUT)
+            yield from repositories
+
+    def process_public_repositories(
+        self,
+        connector: str,
+        integration_name: str,
+        repositories: list[str],
+        failures: IntegrationSyncFailures,
+    ) -> None:
+        """Adds all repositories into connector setup as public repositories.
+
+        Args:
+          connector:
+            connector type, e.g. GitHub
+          integration_name:
+            integration name, e.g. account_botname
+          repositories:
+            repositories to be added
+          failures:
+            failures object, will be updated in case of failures
+        """
+        added_repositories: list[str] = []
+        for repo_slug in repositories:
+            if not self.has_repository_imported(repo_slug):
+                self.add_public_repository(repo_slug)
+                added_repositories.append(repo_slug)
+
+        missing_repositories = self.check_imported_repositories(added_repositories)
+        if missing_repositories:
+            failures[(connector, integration_name)].extend(missing_repositories)
+
+    def process_membership_repositories(
+        self,
+        connector: str,
+        integration_name: str,
+        repositories: list[str],
+        failures: IntegrationSyncFailures,
+    ) -> None:
+        """Adds all repositories into connector setup as membership
+        repositories.
+        """
+
+        added_repositories = []
+        for repo_slug in self.wait_for_available_repositories(repositories):
+            if not self.has_repository_imported(repo_slug):
+                if self.add_membership_repository(repo_slug):
+                    added_repositories.append(repo_slug)
+                else:
+                    failures[(connector, integration_name)].append(
+                        (
+                            repo_slug,
+                            f"❌ Repository {repo_slug} was not among available repositories",
+                        )
+                    )
+        missing_repositories = self.check_imported_repositories(added_repositories)
+        if missing_repositories:
+            failures[(connector, integration_name)].extend(missing_repositories)
+
     def sync_integrations(self, integrations: dict[str, Any]) -> None:
         """Synchronizes integration configuration from file to UI.
 
@@ -63,85 +134,6 @@ class SettingsPage:
         Raises:
           RuntimeError: If any repositories could not have been added to the configuration.
         """
-
-        def wait_for_available_repositories(
-            repositories: list[str],
-        ) -> Generator[str, None, None]:
-            """Waits for Integration / Settings / Available Repositories and
-            aftewards yields the list of repositories.
-            """
-            if member_repos:
-                logging.debug(
-                    "Waiting up to %d milliseconds for membership repositories to appear on the screen prior starting adding them.",
-                    self.AVAILABLE_REPOSITORY_TIMEOUT,
-                )
-                self.page.wait_for_timeout(self.AVAILABLE_REPOSITORY_TIMEOUT)
-                yield from repositories
-
-        def process_public_repositories(
-            connector: str,
-            integration_name: str,
-            repositories: list[str],
-            failures: IntegrationSyncFailures,
-        ) -> None:
-            """Adds all repositories into connector setup as public
-            repositories.
-
-            Args:
-              connector:
-                connector type, e.g. GitHub
-              integration_name:
-                integration name, e.g. account_botname
-              repositories:
-                repositories to be added
-              failures:
-                failures object, will be updated in case of failures
-            """
-            added_repositories: list[str] = []
-            for repo_slug in repositories:
-                if not self.has_repository_imported(repo_slug):
-                    self.add_public_repository(repo_slug)
-                    added_repositories.append(repo_slug)
-
-            missing_repositories = self.check_imported_repositories(added_repositories)
-            if missing_repositories:
-                failures[(connector, integration_name)].extend(missing_repositories)
-
-        def process_membership_repositories(
-            connector: str,
-            integration_name: str,
-            repositories: list[str],
-            failures: IntegrationSyncFailures,
-        ) -> None:
-            """Adds all repositories into connector setup as membership
-            repositories.
-
-            Args:
-              connector:
-                connector type, e.g. GitHub
-              integration_name:
-                integration name, e.g. account_botname
-              repositories:
-                repositories to be added
-              failures:
-                failures object, will be updated in case of failures
-            """
-
-            added_repositories = []
-            for repo_slug in wait_for_available_repositories(repositories):
-                if not self.has_repository_imported(repo_slug):
-                    if self.add_membership_repository(repo_slug):
-                        added_repositories.append(repo_slug)
-                    else:
-                        failures[(connector, integration_name)].append(
-                            (
-                                repo_slug,
-                                f"❌ Repository {repo_slug} was not among available repositories",
-                            )
-                        )
-            missing_repositories = self.check_imported_repositories(added_repositories)
-            if missing_repositories:
-                failures[(connector, integration_name)].extend(missing_repositories)
 
         sync_failures: IntegrationSyncFailures = defaultdict(list)
         for integration_name, details in integrations.items():
@@ -166,14 +158,14 @@ class SettingsPage:
             )
 
             # process public repositories
-            process_public_repositories(
+            self.process_public_repositories(
                 connector=connector,
                 integration_name=integration_name,
                 repositories=public_repos,
                 failures=sync_failures,
             )
             # process membership repositories
-            process_membership_repositories(
+            self.process_membership_repositories(
                 connector=connector,
                 integration_name=integration_name,
                 repositories=member_repos,

@@ -47,7 +47,6 @@ def data_sources(
 
     try:
         with PlaywrightSession() as page:
-            # Fill the login form using environment variables
             login_page = LoginPage(page=page, credentials=logilica_credentials)
             login_page.navigate()
             login_page.login()

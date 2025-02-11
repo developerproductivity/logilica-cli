@@ -1,3 +1,8 @@
+import logging
+from typing import Any
+
+from jsonschema import validate
+
 schema = {
     "type": "object",
     "properties": {
@@ -33,11 +38,6 @@ schema = {
                         "items": {"type": "string"},
                         "optional": True,
                     },
-                    "projects": {
-                        "type": "array",
-                        "items": {"type": "string"},
-                        "optional": True,
-                    },
                 },
             },
         },
@@ -56,11 +56,19 @@ schema = {
                             "description": "Path to the Google OAuth token file",
                         },
                     },
-                    "required": ["app_credentials_file", "token_file"],
                 },
             },
-            "required": ["google"],
         },
     },
-    "required": ["teams", "integrations", "config"],
 }
+
+
+def validate_configuration(configuration: Any) -> None:
+    """Validates configuration (parsed YAML) against schema.
+
+    Raises:
+      ValidationError:
+        In case configuration is not valid against schema
+    """
+    validate(instance=configuration, schema=schema)
+    logging.debug("valid configuration: %s", str(configuration))
