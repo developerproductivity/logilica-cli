@@ -22,7 +22,6 @@ class LoginPage:
         self.page.goto(self.LOGILICA_LOGIN)
 
     def login(self):
-
         logging.info("Logging into Logilica")
         self.email_login_button.click()
         self.domain_field.fill(self.credentials["domain"])

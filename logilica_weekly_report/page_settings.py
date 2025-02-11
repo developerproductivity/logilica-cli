@@ -45,7 +45,7 @@ class SettingsPage:
         """
 
         logging.debug(
-            "Opening integration '%s', connector type:'%s')", integration, connector
+            "Opening integration '%s', connector type:'%s'", integration, connector
         )
         self.page.locator("div.items-center").filter(has_text=connector).filter(
             has_text=integration
@@ -288,5 +288,7 @@ class SettingsPage:
         """Locator for repository slug element."""
 
         # here we need to find the innnermost div element that exactly matches repository slug
+        # alternative option is to use an xpath selector that is more powerfull. Leaving it
+        # in the code in case it will be needed because of DOM tree changes
+        # self.page.locator(f"//div[normalize-space()='{slug}' and not(descendant::div)]")
         return self.page.get_by_text(text=slug, exact=True)
-        # xpath alternative - f"//div[normalize-space()='{slug}' and not(descendant::div)]")
