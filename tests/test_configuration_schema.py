@@ -13,7 +13,9 @@ teams:
     team_dashboards:
       Team Productivity Dashboard:
         Filename: Awesome.pdf
-    jira_projects: issues.redhat.com/TEST
+        filter:
+          Selector1: ["s1val1"]
+          Selector2: ["s2val1", "s2val2"]
 integrations:
   foobar-bot:
     connector: GitHub
@@ -35,7 +37,6 @@ teams:
     team_dashboards:
       Team Productivity Dashboard:
         Filename: Awesome.pdf
-    jira_projects: issues.redhat.com/TEST
 integrations:
   foobar-public-bot:
     connector: GitHub
@@ -57,7 +58,9 @@ teams:
     team_dashboards:
       Team Productivity Dashboard:
         Filename: 1
-    jira_projects: issues.redhat.com/TEST
+        filter:
+          Selector1: [1]
+          Selector2: ["s2val1", 2]
 integrations:
   foobar-bot:
     connector: GitHub

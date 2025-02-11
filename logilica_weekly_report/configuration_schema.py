@@ -15,10 +15,18 @@ schema = {
                         "type": "object",
                         "additionalProperties": {
                             "type": "object",
-                            "properties": {"Filename": {"type": "string"}},
+                            "properties": {
+                                "Filename": {"type": "string"},
+                                "filter": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {"type": "string"},
+                                    },
+                                },
+                            },
                         },
                     },
-                    "jira_projects": {"type": "string"},
                 },
             },
         },

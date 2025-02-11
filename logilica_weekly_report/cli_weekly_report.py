@@ -70,12 +70,15 @@ def weekly_report(
         team_dashboards:
           Board 1:
             Filename: board1_report.pdf
-        jira_projects: issues.redhat.com/FOO
+            filter:
+              Selector1: ["s1val1"]
+              Selector2: ["s2val1", "s2val2"]
       Team 2:
         team_dashboards:
           Board 1:
             Filename: board2_report.pdf
-        jira_projects: issues.redhat.com/BAR
+            filter:
+              Selector3: ["s3val1", "s3val2"]
         ...
     ...
     """
