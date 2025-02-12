@@ -81,8 +81,9 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
         "name": filename,
         "mimeType": "application/vnd.google-apps.document",
     }
+    logging.info("Uploading report to %s on Google Drive", filename)
     try:
-        service = build("drive", "v3", credentials=creds)
+        service = build("drive", "v3", credentials=creds, cache_discovery=False)
         media = MediaIoBaseUpload(
             BytesIO(doc.encode()), mimetype="text/html", resumable=True
         )
@@ -98,8 +99,8 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
         while response is None:
             status, response = request.next_chunk()
             if status:
-                print(f"Uploaded {int(status.progress() * 100)}%.")
-        logging.info(
+                logging.debug("Uploaded %d%%.", int(status.progress() * 100))
+        logging.debug(
             'File "%s" with ID "%s" has been uploaded.', filename, response.get("id")
         )
 

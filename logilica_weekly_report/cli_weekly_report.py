@@ -98,6 +98,7 @@ def weekly_report(
 
     try:
         if source == "logilica":
+            logging.info("Starting session")
             with PlaywrightSession() as page:
                 login_page = LoginPage(page=page, credentials=logilica_credentials)
                 login_page.navigate()
