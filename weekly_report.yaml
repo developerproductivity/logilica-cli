@@ -15,5 +15,3 @@ teams:
       Sprint Planning Accuracy:
         Filename: KUBESAW_Report.pdf
     jira_projects: issues.redhat.com/KUBESAW
-config:
-  {}  # There are no tool configuration options, currently.
