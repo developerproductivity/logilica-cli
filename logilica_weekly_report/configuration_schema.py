@@ -37,12 +37,10 @@ schema = {
                     "public_repositories": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "optional": True,
                     },
                     "membership_repositories": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "optional": True,
                     },
                 },
                 "required": ["connector"],
