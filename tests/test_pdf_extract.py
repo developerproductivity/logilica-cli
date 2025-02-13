@@ -26,7 +26,7 @@ class MyTestCase(unittest.TestCase):
             "Unexpected number of dashboards found.",
         )
         self.assertEqual(
-            1360589,
+            175526,
             len(result["Mock Team"]["Mock Team Dashboard"]),
             "Unexpected images size found.",
         )

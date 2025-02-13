@@ -36,7 +36,7 @@ class DashboardPage:
         for team, dashboards in teams.items():
             for dashboard, options in dashboards["team_dashboards"].items():
                 logging.debug(
-                    "Downloadining dashboard '%s / %s' for team '%s'",
+                    "Downloading dashboard '%s / %s' for team '%s'",
                     menu_dropdown,
                     dashboard,
                     team,
@@ -46,7 +46,8 @@ class DashboardPage:
                 )
                 self.download_dashboard_to(path=base_dir_path / options["Filename"])
             logging.info(
-                "Downloaded %d dashboard(s) for '%s' team",
+                "Downloaded %d dashboard%s for '%s' team",
                 len(dashboards["team_dashboards"]),
+                "s" if len(dashboards["team_dashboards"]) > 1 else "",
                 team,
             )

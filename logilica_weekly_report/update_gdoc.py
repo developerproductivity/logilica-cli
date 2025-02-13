@@ -31,6 +31,10 @@ def generate_html(pdf_items: dict[str, dict[str, bytes]]) -> SimpleDoc:
             with tag("h1"):
                 text("Logilica Weekly Report")
             add_teams(pdf_items, doc, tag, text)
+
+            # Append something visible, so that GDocs doesn't truncate the
+            # last dashboard image.
+            doc.asis("<hr>")
     return doc
 
 
@@ -64,6 +68,8 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
     The file is created on the Google Drive with a MIME type of
     `'application/vnd.google-apps.document'`, which causes Google to treat it
     as or convert it to a GDoc.
+
+    Returns the URL for the resulting GDoc.
     """
 
     filename = (
@@ -75,8 +81,9 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
         "name": filename,
         "mimeType": "application/vnd.google-apps.document",
     }
+    logging.info("Uploading report to %s on Google Drive", filename)
     try:
-        service = build("drive", "v3", credentials=creds)
+        service = build("drive", "v3", credentials=creds, cache_discovery=False)
         media = MediaIoBaseUpload(
             BytesIO(doc.encode()), mimetype="text/html", resumable=True
         )
@@ -92,8 +99,8 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
         while response is None:
             status, response = request.next_chunk()
             if status:
-                print(f"Uploaded {int(status.progress() * 100)}%.")
-        logging.info(
+                logging.debug("Uploaded %d%%.", int(status.progress() * 100))
+        logging.debug(
             'File "%s" with ID "%s" has been uploaded.', filename, response.get("id")
         )
 
@@ -101,7 +108,7 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
         logging.error("An error occurred uploading %s: %s", filename, error)
         raise
 
-    return response.get("id")
+    return f"https://docs.google.com/document/d/{response.get('id')}"
 
 
 def get_google_credentials(config: dict[str, any]) -> Credentials:
@@ -112,10 +119,16 @@ def get_google_credentials(config: dict[str, any]) -> Credentials:
     new token is written to the cache file before returning.
 
     The Google OAuth 2.0 Client "app" configuration is constructed from a local
-    credentials file (which can be downloaded from https://console.developers.google.com,
-    under "Credentials").  It is located using the default mechanisms (e.g., in
-    ${HOME}/.config/gcloud/application_default_credentials.json).  (Currently,
-    the scope of the authorization is limited to the Google Drive APIs.)
+    credentials file (which can be downloaded from the "Credentials" link in
+    the sidebar on https://console.developers.google.com).  (Currently, the
+    scope of the authorization is limited to the Google Drive APIs.)
+
+    The names and locations of the credentials files can be specified in the
+    tool configuration using the keys `token_file` and `app_credentials_file`
+    under "config" -> "google".  The defaults for the file names are defined
+    at the top of this file.  The default locations are conventional for the
+    platform where the tool is run (the user "cache directory" and the user
+    "config directory", respectively) -- see https://platformdirs.readthedocs.io/.
     """
     token_file = get_token_file(config)
     logging.debug("Google OAuth token file: %s", token_file)

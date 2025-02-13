@@ -229,6 +229,7 @@ class TestUpdateGDoc(unittest.TestCase):
         mock_datetime,
     ):
         expected_id = "mock ID string"
+        expected_url = f"https://docs.google.com/document/d/{expected_id}"
         frozen_time = datetime.now(tz=timezone.utc)
 
         mock_doc = MagicMock()
@@ -248,7 +249,7 @@ class TestUpdateGDoc(unittest.TestCase):
         mock_datetime.now.return_value = frozen_time
 
         def check_result(expected_file_name, result_id):
-            self.assertEqual(expected_id, result_id)
+            self.assertEqual(expected_url, result_id)
             actual_file = handle_create.call_args.kwargs.get("body", {}).get("name")
             self.assertEqual(expected_file_name, actual_file)
             # Reset for next scenario
@@ -286,7 +287,7 @@ class TestUpdateGDoc(unittest.TestCase):
             (mock_status, mock_response),
         )
         result = upload_doc(mock_doc, mock_creds, {})
-        self.assertEqual(expected_id, result)
+        self.assertEqual(expected_url, result)
         # Reset for next scenario
         handle_create.reset_mock()
         mock_status.progress.reset_mock(side_effect=True)
@@ -299,7 +300,6 @@ class TestUpdateGDoc(unittest.TestCase):
         logging.getLogger().setLevel(logging.CRITICAL)  # Suppress the error message
         with self.assertRaises(HttpError):
             _ = upload_doc(mock_doc, mock_creds, {})
-        self.assertEqual(expected_id, result)
         handle_create.reset_mock()
         mock_status.progress.reset_mock(side_effect=True)
 
