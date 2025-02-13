@@ -57,7 +57,7 @@ class DashboardPage:
                             loc.get_by_text(value).click()
                         self.page.get_by_role("button", name="Apply").click()
 
-                self.download_dashboard_to(path=base_dir_path / options["Filename"])
+                self.download_dashboard_to(path=base_dir_path / options["filename"])
 
                 if filters:
                     # Clear all the filters

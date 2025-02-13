@@ -16,7 +16,7 @@ schema = {
                         "additionalProperties": {
                             "type": "object",
                             "properties": {
-                                "Filename": {"type": "string"},
+                                "filename": {"type": "string"},
                                 "filter": {
                                     "type": "object",
                                     "additionalProperties": {

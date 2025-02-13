@@ -69,14 +69,14 @@ def weekly_report(
       Team 1:
         team_dashboards:
           Board 1:
-            Filename: board1_report.pdf
+            filename: board1_report.pdf
             filter:
               Selector1: ["s1val1"]
               Selector2: ["s2val1", "s2val2"]
       Team 2:
         team_dashboards:
           Board 1:
-            Filename: board2_report.pdf
+            filename: board2_report.pdf
             filter:
               Selector3: ["s3val1", "s3val2"]
         ...
@@ -124,7 +124,7 @@ def weekly_report(
         else:
             click.echo(doc.getvalue(), err=False)
     except Exception as err:
-        click.echo(err, err=True)
+        click.echo(f"Unexpected exception, {type(err).__name__}: {err}", err=True)
         exit_status = 1
     finally:
         if remove_downloads:

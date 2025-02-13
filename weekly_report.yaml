@@ -3,17 +3,17 @@ teams:
   Practices Team:
     team_dashboards:
       Developer Practices Dashboard:
-        Filename: DPROD_Report.pdf
+        filename: DPROD_Report.pdf
   Sandbox Team:
     team_dashboards:
       Red Hat Outcomes:
-        Filename: SANDBOX_Report.pdf
+        filename: SANDBOX_Report.pdf
         filter:
           Teams: ["Sandbox Team"]
           Boards: ["SANDBOX-issues.redhat.com"]
   Kubesaw Team:
     team_dashboards:
       Sprint Planning Accuracy:
-        Filename: KUBESAW_Report.pdf
+        filename: KUBESAW_Report.pdf
         filter:
           "Jira Project Names": ["issues.redhat.com/SANDBOX"]
