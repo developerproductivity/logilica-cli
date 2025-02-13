@@ -17,13 +17,7 @@ schema = {
                             "type": "object",
                             "properties": {
                                 "filename": {"type": "string"},
-                                "filter": {
-                                    "type": "object",
-                                    "additionalProperties": {
-                                        "type": "array",
-                                        "items": {"type": "string"},
-                                    },
-                                },
+                                "url": {"type": "string"},
                             },
                         },
                     },

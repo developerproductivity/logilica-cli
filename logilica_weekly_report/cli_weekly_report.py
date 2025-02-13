@@ -70,15 +70,12 @@ def weekly_report(
         team_dashboards:
           Board 1:
             filename: board1_report.pdf
-            filter:
-              Selector1: ["s1val1"]
-              Selector2: ["s2val1", "s2val2"]
+            url: some-string
       Team 2:
         team_dashboards:
           Board 1:
             filename: board2_report.pdf
-            filter:
-              Selector3: ["s3val1", "s3val2"]
+            url: some-string
         ...
     ...
     """

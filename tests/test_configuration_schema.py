@@ -13,9 +13,7 @@ teams:
     team_dashboards:
       Team Productivity Dashboard:
         filename: Awesome.pdf
-        filter:
-          Selector1: ["s1val1"]
-          Selector2: ["s2val1", "s2val2"]
+        url: some-string
 integrations:
   foobar-bot:
     connector: GitHub
@@ -37,6 +35,7 @@ teams:
     team_dashboards:
       Team Productivity Dashboard:
         filename: Awesome.pdf
+        url: some-string
 integrations:
   foobar-public-bot:
     connector: GitHub
@@ -58,9 +57,7 @@ teams:
     team_dashboards:
       Team Productivity Dashboard:
         filename: 1
-        filter:
-          Selector1: [1]
-          Selector2: ["s2val1", 2]
+        not-url: some-string
 integrations:
   foobar-bot:
     connector: GitHub
