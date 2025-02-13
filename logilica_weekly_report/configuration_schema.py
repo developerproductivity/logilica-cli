@@ -19,9 +19,13 @@ schema = {
                                 "filename": {"type": "string"},
                                 "url": {"type": "string"},
                             },
+                            "required": ["filename", "url"],
+                            "additionalProperties": False,
                         },
                     },
                 },
+                "required": ["team_dashboards"],
+                "additionalProperties": False,
             },
         },
         "integrations": {
@@ -41,6 +45,8 @@ schema = {
                         "optional": True,
                     },
                 },
+                "required": ["connector"],
+                "additionalProperties": False,
             },
         },
         "config": {
@@ -58,10 +64,13 @@ schema = {
                             "description": "Path to the Google OAuth token file",
                         },
                     },
+                    "additionalProperties": False,
                 },
             },
+            "additionalProperties": False,
         },
     },
+    "additionalProperties": False,
 }
 
 
