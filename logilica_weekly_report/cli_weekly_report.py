@@ -81,12 +81,11 @@ def weekly_report(
     """
     exit_status = 0
     configuration = context.obj["configuration"]
+    config = configuration.get("config", {})
     logilica_credentials = context.obj["logilica_credentials"]
 
     # If needed, get the credentials now to enable "failing early".
-    google_credentials = (
-        get_google_credentials(configuration["config"]) if output == "gdoc" else None
-    )
+    google_credentials = get_google_credentials(config) if output == "gdoc" else None
 
     remove_downloads = not download_dir_path.exists()
     logging.debug(
@@ -114,9 +113,7 @@ def weekly_report(
         )
         doc = generate_html(pdf_items)
         if output == "gdoc":
-            url = upload_doc(
-                doc.getvalue(), google_credentials, configuration["config"]
-            )
+            url = upload_doc(doc.getvalue(), google_credentials, config)
             click.echo(f"Report uploaded to {url}")
         else:
             click.echo(doc.getvalue(), err=False)
