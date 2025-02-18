@@ -3,6 +3,7 @@ import os
 import pathlib
 
 import click
+from click import Command
 from jsonschema import ValidationError
 import yaml
 
@@ -121,6 +122,7 @@ def cli(
     }
 
 
+command: Command
 for command in [weekly_report, data_sources]:
     cli.add_command(command)
 
