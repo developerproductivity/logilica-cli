@@ -1,1 +1,4 @@
-# None, yet.
+coverage[toml]
+pytest
+pytest-cov
+pytest-timeout
