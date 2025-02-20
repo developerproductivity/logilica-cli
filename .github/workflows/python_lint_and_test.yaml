@@ -28,7 +28,7 @@ jobs:
           python -m pip install \
               -r requirements.txt \
               -r tests/requirements.txt \
-              -r .github/workflows/requirements.txt \
+              -r .github/workflows/requirements.txt
       - name: Run python style and linting tools
         run: |
           err=0
@@ -48,8 +48,7 @@ jobs:
           pytest --timeout=300 \
               --cov-config pyproject.toml \
               --cov=logilica_weekly_report --cov=tests \
-              --cov-report=term --cov-report=html \
-            >test_run.out
+              --cov-report=term --cov-report=html
       - name: Publish coverage report to job summary
         # publishing only once
         if: strategy.job-index == 0

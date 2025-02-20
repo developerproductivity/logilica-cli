@@ -55,7 +55,6 @@ exclude_also = [
     # Don't complain about abstract methods, they aren't run:
     "@(abc\\.)?abstractmethod",
     ]
-format = "markdown"
 skip_empty = true
 
 [tool.coverage.html]
