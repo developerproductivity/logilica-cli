@@ -1,7 +1,6 @@
 autoflake
 black
-coverage
+coverage[toml]
 docformatter
 flake8
-html2text
 isort
