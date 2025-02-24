@@ -56,7 +56,7 @@ def get_report_image(pdf: pymupdf.Document) -> bytes:
 
     The individual pages' pixmaps are copied to adjacent locations in the
     target pixmap.  In the process, page headers, footers, and trailing
-    whitespace are omitted.  The pixmap is returned as a byte-string.
+    whitespace are omitted.  The pixmap is returned.
     """
 
     class PageArea(NamedTuple):
