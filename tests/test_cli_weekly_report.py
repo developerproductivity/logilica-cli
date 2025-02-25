@@ -37,7 +37,7 @@ class TestCLIWeeklyReport(unittest.TestCase):
                 ],
             )
 
-            assert result.exit_code == 0
+            assert result.exit_code == 0, result.output
             assert Path(
                 "output/my-awesome-team-team-productivity-dashboard.png"
             ).exists(), "Productivity Dashboard png does not exist"
