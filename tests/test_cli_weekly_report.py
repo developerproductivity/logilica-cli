@@ -25,6 +25,12 @@ class TestCLIWeeklyReport(unittest.TestCase):
             result = runner.invoke(
                 cli,
                 [
+                    "-u",
+                    "testuser",
+                    "-p",
+                    "testpassword",
+                    "-d",
+                    "testorg",
                     "-C",
                     "config.yaml",
                     "weekly-report",
@@ -40,4 +46,4 @@ class TestCLIWeeklyReport(unittest.TestCase):
             assert result.exit_code == 0, result.output
             assert Path(
                 "output/my-awesome-team-team-productivity-dashboard.png"
-            ).exists(), "Productivity Dashboard png does not exist"
+            ).exists(), "Awesome Team Dashboard PNG was not extracted"
