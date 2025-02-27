@@ -1,0 +1,23 @@
+---
+teams:
+  My Awesome Team:
+    team_dashboards:
+      Team Productivity Dashboard:
+        filename: sample_report.pdf
+        url: some-string
+integrations:
+  foobar-bot:
+    connector: GitHub
+    membership_repositories:
+      - my_org/my-repo
+      - my_org/my-repo-2
+    public_repositories:
+      - my-public-org/my-repo
+  foobar-public-bot:
+    connector: GitHub
+    public_repositories:
+      - my-public-org/my-repo
+config:
+  google:
+    app_credentials_file: path/to/file
+    token_file: path/to/file

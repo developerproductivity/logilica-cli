@@ -133,15 +133,6 @@ def cli(
         "password": password,
         "domain": domain,
     }
-
-    output_dir_missing = not output_dir_path.exists()
-    logging.debug(
-        "output directory %s",
-        "does not exist" if output_dir_missing else "exists",
-    )
-    if output_dir_missing:
-        os.mkdir(output_dir_path)
-
     context.obj["output_dir_path"] = output_dir_path
 
 

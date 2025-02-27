@@ -1,41 +1,15 @@
 from copy import deepcopy
-from io import StringIO
 from typing import Any, Generator
 import unittest
 
 from jsonschema import ValidationError
+from pathlib import Path
 import yaml
 
 from logilica_weekly_report.configuration_schema import validate_configuration
 
-FULL_CONFIG = yaml.safe_load(
-    StringIO(
-        """---
-teams:
-  My Awesome Team:
-    team_dashboards:
-      Team Productivity Dashboard:
-        filename: sample_report.pdf
-        url: some-string
-integrations:
-  foobar-bot:
-    connector: GitHub
-    membership_repositories:
-      - my_org/my-repo
-      - my_org/my-repo-2
-    public_repositories:
-      - my-public-org/my-repo
-  foobar-public-bot:
-    connector: GitHub
-    public_repositories:
-      - my-public-org/my-repo
-config:
-  google:
-    app_credentials_file: path/to/file
-    token_file: path/to/file
-"""
-    )
-)
+with open(Path(__file__).parent / "fixtures/config.yaml", "r") as yaml_file:
+    FULL_CONFIG = yaml.safe_load(yaml_file)
 
 
 def recursive_descent_removal(

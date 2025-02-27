@@ -24,17 +24,18 @@ def output_images(
 ) -> None:
     for team, dashboards in pdf_items.items():
         for dashboard, rawimage in dashboards.items():
-            imagepath = output_dir_path / f"{team}-{dashboard}.png"
-            imagepath = imagepath.with_name(imagepath.name.lower().replace(" ", "-"))
+            filename = f"{team}-{dashboard}.png".lower().replace(" ", "-")
+            imagepath = output_dir_path / filename
+
             logging.info("storing dashboard '%s' at '%s'", dashboard, imagepath)
             imagepath.write_bytes(rawimage)
 
 
 @click.command()
 @click.option(
-    "--downloads",
-    "-d",
-    "download_dir_path",
+    "--downloads-temp-dir",
+    "-t",
+    "downloads_temp_dir",
     type=click.Path(writable=True, file_okay=False, path_type=Path, resolve_path=True),
     default=DEFAULT_DOWNLOADS_DIR,
     show_default=True,
@@ -61,10 +62,7 @@ def output_images(
 )
 @click.pass_context
 def weekly_report(
-    context: click.Context,
-    download_dir_path: Path,
-    source: str,
-    output: str,
+    context: click.Context, downloads_temp_dir: Path, source: str, output: str
 ) -> None:
     """Downloads and processes weekly report for teams specified in the
     configuration.
@@ -101,13 +99,13 @@ def weekly_report(
     # If needed, get the credentials now to enable "failing early".
     google_credentials = get_google_credentials(config) if output == "gdoc" else None
 
-    remove_downloads = not download_dir_path.exists()
+    remove_downloads = not downloads_temp_dir.exists()
     logging.debug(
         "download directory %s", "does not exist" if remove_downloads else "exists"
     )
     if remove_downloads:
-        os.mkdir(download_dir_path)
-        logging.info("download directory, %s, created", download_dir_path)
+        os.mkdir(downloads_temp_dir)
+        logging.info("download directory, %s, created", downloads_temp_dir)
 
     try:
         if source == "logilica":
@@ -119,13 +117,20 @@ def weekly_report(
 
                 dashboard_page = DashboardPage(page=page)
                 dashboard_page.download_team_dashboards(
-                    teams=configuration["teams"], base_dir_path=download_dir_path
+                    teams=configuration["teams"], base_dir_path=downloads_temp_dir
                 )
 
         pdf_items = get_pdf_objects(
-            teams=configuration["teams"], download_dir_path=download_dir_path
+            teams=configuration["teams"], download_dir_path=downloads_temp_dir
         )
         if output == "images-only":
+            output_dir_missing = not output_dir_path.exists()
+            logging.debug(
+                "output directory %s",
+                "does not exist" if output_dir_missing else "exists",
+            )
+            if output_dir_missing:
+                os.mkdir(output_dir_path)
             output_images(pdf_items=pdf_items, output_dir_path=output_dir_path)
         else:
             doc = generate_html(pdf_items)
@@ -140,6 +145,6 @@ def weekly_report(
     finally:
         if remove_downloads:
             logging.info("removing downloads directory")
-            shutil.rmtree(download_dir_path)
+            shutil.rmtree(downloads_temp_dir)
 
     context.exit(exit_status)
