@@ -6,7 +6,13 @@ from playwright.sync_api import Page
 
 
 class DashboardPage:
+
+    PDF_EXPORT_TIMEOUT = 60000
+
     def __init__(self, page: Page):
+        # PDF generation might take longer than default 30000 ms timeout, so modify for this page in global
+        # It can be export or download button that takes time to become visible
+        page.set_default_timeout(self.PDF_EXPORT_TIMEOUT)
         self.page = page
         self.export_pdf_button = page.get_by_role("button", name="Export PDF")
         self.download_button = page.get_by_role("button", name="Download").nth(1)
