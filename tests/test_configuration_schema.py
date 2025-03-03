@@ -1,9 +1,9 @@
 from copy import deepcopy
+from pathlib import Path
 from typing import Any, Generator
 import unittest
 
 from jsonschema import ValidationError
-from pathlib import Path
 import yaml
 
 from logilica_weekly_report.configuration_schema import validate_configuration
