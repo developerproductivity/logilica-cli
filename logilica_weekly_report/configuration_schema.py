@@ -42,6 +42,10 @@ schema = {
                         "type": "array",
                         "items": {"type": "string"},
                     },
+                    "membership_boards": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
                 },
                 "required": ["connector"],
                 "additionalProperties": False,
