@@ -70,6 +70,7 @@ order_by_type = false                           # sort alphabetic regardless of 
 filterwarnings = [
     # note the use of single quote below to denote "raw" (regex) strings in TOML
     'ignore:builtin type swig\w* has no __module__ attribute:DeprecationWarning',
+    'ignore:deprecated:DeprecationWarning:docling_core.types.doc.document',
 ]
 empty_parameter_set_mark = "xfail"
 testpaths = ["tests"]
