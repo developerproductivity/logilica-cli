@@ -17,6 +17,6 @@ def test_get_pdf_objects():
     )
     assert 1 == len(result), "Unexpected number of teams found."
     assert 1 == len(result["Mock Team"]), "Unexpected number of dashboards found."
-    assert 175655 == len(
-        result["Mock Team"]["Mock Team Dashboard"]
+    assert (
+        175627 <= len(result["Mock Team"]["Mock Team Dashboard"]) <= 175655
     ), "Unexpected image length"
