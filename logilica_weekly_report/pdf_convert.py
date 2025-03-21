@@ -19,9 +19,7 @@ class PDFConvert:
       scale: DPI of the images extracted, in multiplies of 72 DPI
     """
 
-    def __init__(
-        self, *, output_dir_path: Path, download_dir_path: Path, scale: float = 2.0
-    ):
+    def __init__(self, *, output_dir_path: Path, download_dir_path: Path, scale: float):
         self.output_dir_path = output_dir_path
         self.download_dir_path = download_dir_path
         self.scale = scale
@@ -60,17 +58,17 @@ class PDFConvert:
         pdf_path: str,
         team: str,
         dashboard: str,
-        embedd_images: bool = True,
+        embed_images: bool = True,
     ) -> None:
         self.output_dir_path.mkdir(parents=True, exist_ok=True)
 
         result = self.converter.convert(pdf_path)
         doc_stem = f"{team}-{dashboard}".lower().replace(" ", "-")
-        doc_type = "with-images" if embedd_images else "with-image-refs"
+        doc_type = "with-images" if embed_images else "with-image-refs"
         extension = "md" if format == "markdown" else "html"
         output_file = self.output_dir_path / f"{doc_stem}-{doc_type}.{extension}"
 
-        image_mode = ImageRefMode.EMBEDDED if embedd_images else ImageRefMode.REFERENCED
+        image_mode = ImageRefMode.EMBEDDED if embed_images else ImageRefMode.REFERENCED
 
         if format == "markdown":
             result.document.save_as_markdown(
@@ -84,7 +82,7 @@ class PDFConvert:
             team,
             dashboard,
             str(output_file),
-            "embedded" if embedd_images else "referenced",
+            "embedded" if embed_images else "referenced",
         )
 
     def to_format_multiple(
@@ -92,7 +90,7 @@ class PDFConvert:
         *,
         format: Literal["markdown", "html"],
         teams: dict[str, dict[str, Any]],
-        embedd_images: bool = True,
+        embed_images: bool = True,
     ) -> int:
 
         total = 0
@@ -105,7 +103,7 @@ class PDFConvert:
                     pdf_path=path,
                     dashboard=dashboard,
                     team=team,
-                    embedd_images=embedd_images,
+                    embed_images=embed_images,
                 )
                 total += 1
         logging.debug("Converted %d dashboards for %d teams", total, len(teams.items()))

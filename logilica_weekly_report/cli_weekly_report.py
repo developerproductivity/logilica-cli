@@ -148,25 +148,25 @@ def weekly_report(
                     teams=configuration["teams"], base_dir_path=downloads_temp_dir
                 )
 
-        convertor = PDFConvert(
+        converter = PDFConvert(
             output_dir_path=output_dir_path,
             download_dir_path=downloads_temp_dir,
             scale=scale,
         )
-        if output in {"markdown", "html", "markdown-with-refs", "html-with-refs"}:
-            parts = output.split("-", 1)
-            (format, embedd_images) = (parts[0], False if len(parts) > 1 else True)
-            convertor.to_format_multiple(
+        if output in ("markdown", "html", "markdown-with-refs", "html-with-refs"):
+            format = output.removesuffix("-with-refs")
+            embed_images = not output.endswith("-with-refs")
+            converter.to_format_multiple(
                 teams=configuration["teams"],
                 format=format,
-                embedd_images=embedd_images,
+                embed_images=embed_images,
             )
         else:
             pdf_items = PDFExtract(scale=scale).get_pdf_objects(
                 teams=configuration["teams"], download_dir_path=downloads_temp_dir
             )
             if output == "images-only":
-                convertor.to_images(pdf_items=pdf_items)
+                converter.to_images(pdf_items=pdf_items)
             else:
                 doc = generate_html(pdf_items)
                 if output == "gdoc":
