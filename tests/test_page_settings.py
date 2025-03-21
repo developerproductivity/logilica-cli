@@ -39,16 +39,11 @@ MISSING_ENTITIES = {
 
 
 def has_entity_id_imported_side_effect(*args, **kwargs):
-    if "miss" in kwargs.get("text", "") and kwargs.get("exact") is True:
-        mock_for_missing_entry = MagicMock()
-        # chain: .nth(0).is_visible() => False
-        mock_for_missing_entry.nth.return_value.is_visible.return_value = False
-        return mock_for_missing_entry
-    else:
-        mock_for_existing_entry = MagicMock()
-        # chain: .nth(0).is_visible() => True
-        mock_for_existing_entry.nth.return_value.is_visible.return_value = True
-        return mock_for_existing_entry
+    result = "miss" in kwargs.get("text", "") and kwargs.get("exact") is True
+    mock_for_missing_entry = MagicMock()
+    # chain: .nth(0).is_visible() => result
+    mock_for_missing_entry.nth.return_value.is_visible.return_value = not result
+    return mock_for_missing_entry
 
 
 def test_sync_repositories():
@@ -69,14 +64,12 @@ def test_sync_boards():
 
         mock_locator = MagicMock()
         mock_locator.count.return_value = 1
-        page_mock.get_by_role.return_value.filter.return_value.get_by_role.return_value = (
-            mock_locator
-        )
+        frv = page_mock.get_by_role.return_value.filter.return_value
+        frv.get_by_role.return_value = mock_locator
 
         mock_expect.return_value = page_mock
         page = SettingsPage(page=page_mock)
         page.sync_integrations(integrations=JIRA_INTEGRATION)
-        print(mock_locator.mock_calls)
         page_mock.get_by_role.assert_any_call("heading", name="Jira Settings")
 
 
@@ -87,9 +80,8 @@ def test_missing_entities():
 
         mock_locator = MagicMock()
         mock_locator.count.return_value = 1
-        page_mock.get_by_role.return_value.filter.return_value.get_by_role.return_value = (
-            mock_locator
-        )
+        frv = page_mock.get_by_role.return_value.filter.return_value
+        frv.get_by_role.return_value = mock_locator
 
         mock_expect.return_value = page_mock
         page = SettingsPage(page=page_mock)
@@ -97,6 +89,7 @@ def test_missing_entities():
         with raises(RuntimeError) as error:
             page.sync_integrations(integrations=MISSING_ENTITIES)
 
+        failures = sum(len(value_list) for value_list in error.value.args[0].values())
         assert (
-            sum(len(value_list) for value_list in error.value.args[0].values()) == 2
-        ), "There are two integrations with 2 failures that failed to sync"
+            failures == 2
+        ), "There should be two integrations with 2 failures that failed to sync, not {failures}"

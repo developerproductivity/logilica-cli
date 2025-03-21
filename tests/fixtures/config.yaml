@@ -13,10 +13,16 @@ integrations:
       - my_org/my-repo-2
     public_repositories:
       - my-public-org/my-repo
+    membership_boards:
+      - issues.mydomain.com/TEST
   foobar-public-bot:
     connector: GitHub
     public_repositories:
       - my-public-org/my-repo
+  "JIRA Connector":
+    connector: Jira
+    membership_boards:
+      - issues.mydomain.com/TEST
 config:
   google:
     app_credentials_file: path/to/file

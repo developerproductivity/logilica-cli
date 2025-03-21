@@ -23,7 +23,7 @@ class SettingsPage:
     """
 
     IMPORT_TIMEOUT = 9000
-    AVAILABLE_LIST_TIMEOUT = IMPORT_TIMEOUT * 6
+    AVAILABLE_LIST_TIMEOUT = 5400
 
     def __init__(self, page: Page):
 
@@ -38,7 +38,7 @@ class SettingsPage:
         self.add_public_repository_input = page.locator(
             "label:has-text('Repo URL') + input"
         )
-        # UI elements for membership based access
+        # UI elements for membership-based access
         self.search_imported_repos_field = page.locator(
             "input[placeholder='Search repository...']"
         ).nth(0)
@@ -89,8 +89,8 @@ class SettingsPage:
             boards = details.get("membership_boards", [])
             logging.debug(
                 "Syncing integration '%s' (connector '%s'), "
-                "%d public repositories, %d membership based repositories, "
-                "%d membership based boards.",
+                "%d public repositories, %d membership-based repositories, "
+                "%d membership-based boards.",
                 integration_name,
                 connector,
                 len(public_repos),
@@ -113,7 +113,7 @@ class SettingsPage:
                 add_function=self.add_public_repository,
                 failures=sync_failures,
             )
-            # process membership based repositories
+            # process membership-based repositories
             self.process_repositories(
                 connector=connector,
                 integration_name=integration_name,
@@ -178,8 +178,8 @@ class SettingsPage:
         check_function: Callable[[list[str]], list[str]],
         failures: IntegrationSyncFailures,
     ) -> None:
-        """Makes sure that entities (could be a repository slugs, board names)
-        are configured for given integration.
+        """Makes sure that entities (could be a repository slug, or a board
+        name) are configured for given integration.
 
         First, it checks the presence by using search_function, if not found,
         uses add_function and afterwards validates presence of all added items
@@ -279,10 +279,9 @@ class SettingsPage:
         search_field.fill(entity_id)
 
         # here we need to find the innermost div element that exactly matches repository slug
-        found = False
-        if self.page.get_by_text(text=entity_id, exact=True).nth(0).is_visible():
+        found = self.page.get_by_text(text=entity_id, exact=True).nth(0).is_visible()
+        if found:
             logging.debug("✅%s '%s' is imported", entity_type, entity_id)
-            found = True
 
         search_field.clear()
         return found
@@ -341,19 +340,16 @@ class SettingsPage:
         return False
 
     def entity_type(self, connector: str) -> str:
-        return (
-            "💻 Repository"
-            if re.search(r"github", connector, re.IGNORECASE)
-            else "📝 Board"
-        )
+        if re.search(r"github", connector, re.IGNORECASE):
+            return "💻 Repository"
+        return "📝 Board"
 
     def control_button(self, entity_id: str, *, order=0) -> Optional[Locator]:
         """Finds control button.
 
-        As there might be multiple buttons
-        (up to 2), provides additional logic to pick up the right one.  The
-        first button might be found in imported entities, the other one in
-        available entities.
+        As there might be multiple buttons (up to 2), the function provides
+        an additional logic to pick up the right one. The first button might
+        be found in imported entities, the other one in available entities.
 
         Args:
           entity_id:
