@@ -39,7 +39,7 @@ MISSING_ENTITIES = {
 
 
 def has_entity_id_imported_side_effect(*args, **kwargs):
-    result = "miss" in kwargs.get("text", "") and kwargs.get("exact") is True
+    result = "miss" in kwargs.get("text", "") and kwargs.get("exact")
     mock_for_missing_entry = MagicMock()
     # chain: .nth(0).is_visible() => result
     mock_for_missing_entry.nth.return_value.is_visible.return_value = not result

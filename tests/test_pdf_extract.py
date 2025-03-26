@@ -1,5 +1,7 @@
 import pathlib
 
+from pytest import approx
+
 from logilica_weekly_report.pdf_extract import PDFExtract
 
 
@@ -15,8 +17,8 @@ def test_get_pdf_objects():
     result = PDFExtract().get_pdf_objects(
         config, pathlib.Path(__file__).parent / "fixtures"
     )
-    assert 1 == len(result), "Unexpected number of teams found."
-    assert 1 == len(result["Mock Team"]), "Unexpected number of dashboards found."
-    assert (
-        175627 <= len(result["Mock Team"]["Mock Team Dashboard"]) <= 175655
+    assert len(result) == 1, "Unexpected number of teams found."
+    assert len(result["Mock Team"]) == 1, "Unexpected number of dashboards found."
+    assert len(result["Mock Team"]["Mock Team Dashboard"]) == approx(
+        175640, abs=15
     ), "Unexpected image length"

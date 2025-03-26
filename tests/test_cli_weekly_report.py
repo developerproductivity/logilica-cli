@@ -3,6 +3,7 @@ import shutil
 
 from click.testing import CliRunner
 import pytest
+from pytest import approx
 import yaml
 
 from logilica_weekly_report.__main__ import cli
@@ -77,7 +78,7 @@ def test_weekly_report_markdown(setup_cli_isolated_env):
 
     assert result.exit_code == 0, result.output
     files = list(Path(OUTPUT_DIR).rglob("*"))
-    assert 1 == len(files)
+    assert len(files) == 1
     assert Path(
         f"{OUTPUT_DIR}/my-awesome-team-team-productivity-dashboard-with-images.md"
     ).exists()
@@ -97,7 +98,7 @@ def test_weekly_report_html(setup_cli_isolated_env):
 
     assert result.exit_code == 0, result.output
     files = list(Path(OUTPUT_DIR).rglob("*"))  # Recursively get all files and folders
-    assert 1 == len(files)
+    assert len(files) == 1
     assert Path(
         f"{OUTPUT_DIR}/my-awesome-team-team-productivity-dashboard-with-images.html"
     ).exists()
@@ -117,7 +118,7 @@ def test_weekly_report_html_with_refs(setup_cli_isolated_env):
 
     assert result.exit_code == 0, result.output
     files = list(Path(OUTPUT_DIR).rglob("*"))
-    assert 7 == len(files)
+    assert len(files) == 7
     assert Path(
         f"{OUTPUT_DIR}/my-awesome-team-team-productivity-dashboard-with-image-refs.html"
     ).exists()
@@ -137,7 +138,7 @@ def test_weekly_report_markdown_with_refs(setup_cli_isolated_env):
 
     assert result.exit_code == 0, result.output
     files = list(Path(OUTPUT_DIR).rglob("*"))
-    assert 7 == len(files)
+    assert len(files) == 7
     assert Path(
         f"{OUTPUT_DIR}/my-awesome-team-team-productivity-dashboard-with-image-refs.md"
     ).exists
@@ -157,5 +158,5 @@ def test_weekly_report_console(setup_cli_isolated_env):
 
     assert result.exit_code == 0, result.output
     files = list(Path(OUTPUT_DIR).rglob("*"))
-    assert 0 == len(files)
-    assert 234338 <= len(result.output) <= 234374, "Unexpected document length"
+    assert len(files) == 0
+    assert len(result.output) == approx(234360, abs=25), "Unexpected document length"

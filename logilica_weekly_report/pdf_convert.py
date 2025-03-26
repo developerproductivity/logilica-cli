@@ -35,7 +35,7 @@ class PDFConvert:
             }
         )
 
-    def to_image(self, *, rawimage: bytes, team: str, dashboard: str) -> None:
+    def write_image(self, *, rawimage: bytes, team: str, dashboard: str) -> None:
         self.output_dir_path.mkdir(parents=True, exist_ok=True)
         filename = f"{team}-{dashboard}.png".lower().replace(" ", "-")
         imagepath = self.output_dir_path / filename
@@ -46,7 +46,7 @@ class PDFConvert:
         total: int = 0
         for team, dashboards in pdf_items.items():
             for dashboard, rawimage in dashboards.items():
-                self.to_image(rawimage=rawimage, team=team, dashboard=dashboard)
+                self.write_image(rawimage=rawimage, team=team, dashboard=dashboard)
                 total += 1
         logging.info("stored %d images in %s", total, self.output_dir_path)
         return total
