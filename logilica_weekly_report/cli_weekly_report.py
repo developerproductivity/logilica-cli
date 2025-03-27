@@ -7,7 +7,8 @@ import click
 
 from logilica_weekly_report.page_dashboard import DashboardPage
 from logilica_weekly_report.page_login import LoginPage
-from logilica_weekly_report.pdf_extract import get_pdf_objects
+from logilica_weekly_report.pdf_convert import PDFConvert
+from logilica_weekly_report.pdf_extract import PDFExtract
 from logilica_weekly_report.playwright_session import PlaywrightSession
 from logilica_weekly_report.update_gdoc import (
     generate_html,
@@ -17,18 +18,6 @@ from logilica_weekly_report.update_gdoc import (
 
 # Default values for command options
 DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
-
-
-def output_images(
-    pdf_items: dict[str, dict[str, bytes]], output_dir_path: Path
-) -> None:
-    for team, dashboards in pdf_items.items():
-        for dashboard, rawimage in dashboards.items():
-            filename = f"{team}-{dashboard}.png".lower().replace(" ", "-")
-            imagepath = output_dir_path / filename
-
-            logging.info("storing dashboard '%s' at '%s'", dashboard, imagepath)
-            imagepath.write_bytes(rawimage)
 
 
 @click.command()
@@ -53,16 +42,55 @@ def output_images(
 )
 @click.option(
     "--output",
+    "--output-type",
     "-O",
-    type=click.Choice(["gdoc", "html", "images-only"], case_sensitive=False),
+    type=click.Choice(
+        [
+            "gdoc",
+            "console",
+            "images-only",
+            "markdown",
+            "html",
+            "markdown-with-refs",
+            "html-with-refs",
+        ],
+        case_sensitive=False,
+    ),
     default="gdoc",
     show_default=True,
-    help="Output format -- HTML to stdout or stored as a Google Doc on"
-    " Google Drive or only dashboard images as PNGs",
+    help="""Output format of how individual PDF file is processed:
+
+    gdoc: HTML with an embedded image represeting whole dashboard and
+        stored as a Google Doc on Google Drive
+    console: HTML with an embedded image represeting whole dashboard to stdout
+    images-only: Embedded image only as a PNG.
+    markdown: PDF parsed by docling into Markdown, with images embedded
+        in it. Images might represent individual charts.
+    html: PDF parsed by docling into HTML, with images embedded in it.
+        Images might represent individual charts.
+    markdown-with-refs: PDF parsed by docling into Markdown, with images stored
+        externally and referenced. Images might represent individual charts.
+    html-with-refs: PDF parsed by docling into HTML, with images stored
+        externally and referenced. Images might represent individual charts.
+    """,
+)
+@click.option(
+    "--scale",
+    "-s",
+    "scale",
+    type=float,
+    default=1.0,
+    show_default=True,
+    help="Resolution of the images scale factor * 72 DPI. Higher the number,"
+    " higher the resolution and size of the images",
 )
 @click.pass_context
 def weekly_report(
-    context: click.Context, downloads_temp_dir: Path, source: str, output: str
+    context: click.Context,
+    downloads_temp_dir: Path,
+    source: str,
+    output: str,
+    scale: int,
 ) -> None:
     """Downloads and processes weekly report for teams specified in the
     configuration.
@@ -120,25 +148,33 @@ def weekly_report(
                     teams=configuration["teams"], base_dir_path=downloads_temp_dir
                 )
 
-        pdf_items = get_pdf_objects(
-            teams=configuration["teams"], download_dir_path=downloads_temp_dir
+        converter = PDFConvert(
+            output_dir_path=output_dir_path,
+            download_dir_path=downloads_temp_dir,
+            scale=scale,
         )
-        if output == "images-only":
-            output_dir_missing = not output_dir_path.exists()
-            logging.debug(
-                "output directory %s",
-                "does not exist" if output_dir_missing else "exists",
+        if output in ("markdown", "html", "markdown-with-refs", "html-with-refs"):
+            format = output.removesuffix("-with-refs")
+            embed_images = not output.endswith("-with-refs")
+            converter.to_format_multiple(
+                teams=configuration["teams"],
+                format=format,
+                embed_images=embed_images,
             )
-            if output_dir_missing:
-                os.mkdir(output_dir_path)
-            output_images(pdf_items=pdf_items, output_dir_path=output_dir_path)
         else:
-            doc = generate_html(pdf_items)
-            if output == "gdoc":
-                url = upload_doc(doc.getvalue(), google_credentials, config)
-                click.echo(f"Report uploaded to {url}")
+            pdf_items = PDFExtract(scale=scale).get_pdf_objects(
+                teams=configuration["teams"], download_dir_path=downloads_temp_dir
+            )
+            if output == "images-only":
+                converter.to_images(pdf_items=pdf_items)
             else:
-                click.echo(doc.getvalue(), err=False)
+                doc = generate_html(pdf_items)
+                if output == "gdoc":
+                    url = upload_doc(doc.getvalue(), google_credentials, config)
+                    click.echo(f"Report uploaded to {url}")
+                else:
+                    click.echo(doc.getvalue(), err=False)
+
     except Exception as err:
         click.echo(f"Unexpected exception, {type(err).__name__}: {err}", err=True)
         exit_status = 1

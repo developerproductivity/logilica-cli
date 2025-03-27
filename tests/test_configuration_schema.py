@@ -59,6 +59,7 @@ def generate_valid_configs() -> Generator[dict[str, Any], None, None]:
             next(iter(FULL_CONFIG["integrations"])): {
                 "public_repositories": {mkey: True},
                 "membership_repositories": {mkey: True},
+                "membership_boards": {mkey: True},
             },
         },
         "config": {
@@ -244,6 +245,7 @@ def generate_questionable_configs() -> Generator[dict[str, Any], None, None]:
             first_integration: {
                 "public_repositories": {q_key: []},
                 "membership_repositories": {q_key: []},
+                "membership_boards": {q_key: []},
             },
         },
         "config": {
@@ -281,6 +283,7 @@ def generate_bad_types() -> Generator[dict[str, Any], None, None]:
     #   - "integrations.XXX.connector"
     #   - "integrations.XXX.public_repositories"
     #   - "integrations.XXX.membership_repositories"
+    #   - "integrations.XXX.membership_boards"
     #   - "config"
     #   - "config.google"
     #   - "config.google.app_credentials_file"
@@ -311,6 +314,7 @@ def generate_bad_types() -> Generator[dict[str, Any], None, None]:
                 "connector": {b_key: 1},
                 "public_repositories": {b_key: 1},
                 "membership_repositories": {b_key: 1},
+                "membership_boards": {b_key: 1},
             },
         },
         "config": {
@@ -342,9 +346,9 @@ class TestConfigurationSchema(unittest.TestCase):
                 count += 1
 
         do_it(generate_valid_configs())
-        self.assertEqual(10, count)
+        self.assertEqual(11, count)
         do_it(generate_questionable_configs())
-        self.assertEqual(10 + 7, count)
+        self.assertEqual(11 + 8, count)
 
     def test_invalid_configurations(self):
         count = 0
@@ -369,7 +373,7 @@ class TestConfigurationSchema(unittest.TestCase):
             generate_bad_types(),
             "is not of type",
         )
-        self.assertEqual(25, count)
+        self.assertEqual(26, count)
 
 
 if __name__ == "__main__":
