@@ -23,7 +23,7 @@ class SettingsPage:
     """
 
     IMPORT_TIMEOUT = 9000
-    AVAILABLE_LIST_TIMEOUT = 5400
+    AVAILABLE_LIST_TIMEOUT = 54000
 
     def __init__(self, page: Page):
 
