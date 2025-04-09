@@ -72,10 +72,12 @@ integrations:
       - issues.redhat.com/CRCPLAN
       - issues.redhat.com/CRW
       - issues.redhat.com/DPROD
+      - issues.redhat.com/HCEPERF
       - issues.redhat.com/KUBESAW
       - issues.redhat.com/OCPBUGS
       - issues.redhat.com/ODC
       - issues.redhat.com/PODMAND
+      - issues.redhat.com/PSINFRA
       - issues.redhat.com/RHDHBUGS
       - issues.redhat.com/RHDHPAI
       - issues.redhat.com/RHDP
@@ -84,6 +86,8 @@ integrations:
   dprod-bot:
     connector: GitHub
     membership_repositories:
+      - Appservices-perfscale/cpt-images
+      - Appservices-perfscale/iperf
       - codeready-toolchain/api
       - codeready-toolchain/argocd-checker
       - codeready-toolchain/backup-prod
@@ -108,12 +112,21 @@ integrations:
       - codeready-toolchain/toolchain-operator
       - codeready-toolchain/utils
       - codeready-toolchain/workload-analyzer
-      - containers/podman-desktop
       - developerproductivity/costpuller
       - developerproductivity/logilica-weekly-report
+      - konflux-ci/build-definitions
+      - konflux-ci/docs
+      - konflux-ci/e2e-tests
       - konflux-ci/integration-service
+      - konflux-ci/konflux-ci
+      - konflux-ci/konflux-test
+      - konflux-ci/mintmaker
+      - konflux-ci/namespace-lister
+      - konflux-ci/oras-container
+      - konflux-ci/yq-container
       - kubesaw/ksctl
       - kubesaw/snapshot-operator
+      - redhat-appstudio/infra-deployments
       - redhat-developer/aonic-ui
       - redhat-developer/devspaces
       - redhat-developer/devspaces-chectl
@@ -136,16 +149,7 @@ integrations:
       - redhat-developer/vscode-java
       - redhat-developer/vscode-microprofile
       - redhat-developer/vscode-quarkus
-      - konflux-ci/docs
-      - konflux-ci/konflux-ci
-      - redhat-appstudio/infra-deployments
-      - konflux-ci/namespace-lister
-      - konflux-ci/oras-container
-      - konflux-ci/yq-container
-      - konflux-ci/e2e-tests
-      - konflux-ci/mintmaker
-      - konflux-ci/build-definitions
-      - konflux-ci/konflux-test
+      - redhat-performance/opl
   dprod-public-bot:
     connector: GitHub
     public_repositories:
