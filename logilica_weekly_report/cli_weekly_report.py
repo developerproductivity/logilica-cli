@@ -87,18 +87,24 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
     show_default=True,
     help="""Output format of how individual PDF file is processed:
 
-    gdoc: HTML with an embedded image represeting whole dashboard and
-        stored as a Google Doc on Google Drive
-    console: HTML with an embedded image represeting whole dashboard to stdout
+    gdoc: HTML with an embedded image representing whole dashboard and stored
+    as a Google Doc on Google Drive
+
+    console: HTML with an embedded image representing whole dashboard to stdout
+
     images-only: Embedded image only as a PNG.
-    markdown: PDF parsed by docling into Markdown, with images embedded
-        in it. Images might represent individual charts.
-    html: PDF parsed by docling into HTML, with images embedded in it.
-        Images might represent individual charts.
-    markdown-with-refs: PDF parsed by docling into Markdown, with images stored
-        externally and referenced. Images might represent individual charts.
+
+    markdown: PDF parsed by docling into Markdown, with images embedded in it.
+    Images might represent individual charts.
+
+    html: PDF parsed by docling into HTML, with images embedded in it.  Images
+    might represent individual charts.
+
+    markdown-with-refs: PDF parsed by docling into Markdown, with images
+    stored externally and referenced. Images might represent individual charts.
+
     html-with-refs: PDF parsed by docling into HTML, with images stored
-        externally and referenced. Images might represent individual charts.
+    externally and referenced. Images might represent individual charts.
     """,
 )
 @click.option(
@@ -188,11 +194,11 @@ def weekly_report(
             scale=scale,
         )
         if output in ("markdown", "html", "markdown-with-refs", "html-with-refs"):
-            format = output.removesuffix("-with-refs")
+            o_format = output.removesuffix("-with-refs")
             embed_images = not output.endswith("-with-refs")
             converter.to_format_multiple(
                 teams=configuration["teams"],
-                format=format,
+                format=o_format,
                 embed_images=embed_images,
             )
         else:
