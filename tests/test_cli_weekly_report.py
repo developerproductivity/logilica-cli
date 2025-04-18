@@ -2,8 +2,7 @@ from pathlib import Path
 import shutil
 
 from click.testing import CliRunner
-import pytest
-from pytest import approx
+from pytest import approx, fixture
 import yaml
 
 from logilica_weekly_report.__main__ import cli
@@ -14,17 +13,17 @@ with open(Path(__file__).parent / "fixtures/config.yaml", "r") as yaml_file:
 OUTPUT_DIR = "./test-output"
 
 BASE_ARGS = [
+    "--config",
+    "config.yaml",
+    "--output-dir",
+    OUTPUT_DIR,
+    "weekly-report",
     "--username",
     "testuser",
     "--password",
     "testpassword",
     "--domain",
     "testorg",
-    "--config",
-    "config.yaml",
-    "--output-dir",
-    OUTPUT_DIR,
-    "weekly-report",
     "-t",
     "downloads",
     "-I",
@@ -32,7 +31,7 @@ BASE_ARGS = [
 ]
 
 
-@pytest.fixture(autouse=True)
+@fixture(autouse=True)
 def setup_cli_isolated_env():
     runner = CliRunner()
     fixtures_dir = Path(__file__).parent / "fixtures"
