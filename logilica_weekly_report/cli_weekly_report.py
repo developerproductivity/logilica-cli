@@ -22,6 +22,33 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 @click.command()
 @click.option(
+    "--username",
+    "-u",
+    envvar="LOGILICA_EMAIL",
+    required=True,
+    show_default=True,
+    show_envvar=True,
+    help="Logilica Login Credentials: User Email",
+)
+@click.password_option(
+    "--password",
+    "-p",
+    envvar="LOGILICA_PASSWORD",
+    show_default=True,
+    show_envvar=True,
+    required=True,
+    help="Logilica Login Credentials: Password",
+)
+@click.option(
+    "--domain",
+    "-d",
+    envvar="LOGILICA_DOMAIN",
+    show_default=True,
+    show_envvar=True,
+    required=True,
+    help="Logilica Login Credentials: Organization Name",
+)
+@click.option(
     "--downloads-temp-dir",
     "-t",
     "downloads_temp_dir",
@@ -87,6 +114,9 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 @click.pass_context
 def weekly_report(
     context: click.Context,
+    username: str,
+    password: str,
+    domain: str,
     downloads_temp_dir: Path,
     source: str,
     output: str,
@@ -121,7 +151,11 @@ def weekly_report(
     exit_status = 0
     configuration = context.obj["configuration"]
     config = configuration.get("config", {})
-    logilica_credentials = context.obj["logilica_credentials"]
+    logilica_credentials = {
+        "username": username,
+        "password": password,
+        "domain": domain,
+    }
     output_dir_path = context.obj["output_dir_path"]
 
     # If needed, get the credentials now to enable "failing early".
@@ -141,7 +175,7 @@ def weekly_report(
             with PlaywrightSession() as page:
                 login_page = LoginPage(page=page, credentials=logilica_credentials)
                 login_page.navigate()
-                login_page.login()
+                login_page.login_with_email()
 
                 dashboard_page = DashboardPage(page=page)
                 dashboard_page.download_team_dashboards(

@@ -23,33 +23,6 @@ logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WAR
     epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
 )
 @click.option(
-    "--username",
-    "-u",
-    envvar="LOGILICA_EMAIL",
-    required=True,
-    show_default=True,
-    show_envvar=True,
-    help="Logilica Login Credentials: User Email",
-)
-@click.password_option(
-    "--password",
-    "-p",
-    envvar="LOGILICA_PASSWORD",
-    show_default=True,
-    show_envvar=True,
-    required=True,
-    help="Logilica Login Credentials: Password",
-)
-@click.option(
-    "--domain",
-    "-d",
-    envvar="LOGILICA_DOMAIN",
-    show_default=True,
-    show_envvar=True,
-    required=True,
-    help="Logilica Login Credentials: Organization Name",
-)
-@click.option(
     "--config",
     "-C",
     "config_file_path",
@@ -90,10 +63,7 @@ logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WAR
 def cli(
     context: click.Context,
     config_file_path: pathlib.Path,
-    domain: str,
     output_dir_path: str,
-    username: str,
-    password: str,
     pwdebug: bool,
     verbose: int,
 ) -> None:
@@ -128,11 +98,6 @@ def cli(
 
     context.ensure_object(dict)
     context.obj["configuration"] = configuration
-    context.obj["logilica_credentials"] = {
-        "username": username,
-        "password": password,
-        "domain": domain,
-    }
     context.obj["output_dir_path"] = output_dir_path
 
 

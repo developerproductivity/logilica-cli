@@ -10,9 +10,19 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 
 @click.command()
+@click.option(
+    "--domain",
+    "-d",
+    envvar="LOGILICA_DOMAIN",
+    show_default=True,
+    show_envvar=True,
+    required=True,
+    help="Logilica Login Credentials: Organization Name",
+)
 @click.pass_context
 def data_sources(
     context: click.Context,
+    domain: str,
 ) -> None:
     """Synchronizes configuration of integrations with the configuration file.
 
@@ -43,13 +53,13 @@ def data_sources(
 
     exit_status = 0
     configuration = context.obj["configuration"]
-    logilica_credentials = context.obj["logilica_credentials"]
+    logilica_credentials = {"domain": domain}
 
     try:
-        with PlaywrightSession() as page:
+        with PlaywrightSession(headless=False) as page:
             login_page = LoginPage(page=page, credentials=logilica_credentials)
             login_page.navigate()
-            login_page.login()
+            login_page.login_with_sso()
 
             settings_page = SettingsPage(page=page)
             settings_page.sync_integrations(integrations=configuration["integrations"])
