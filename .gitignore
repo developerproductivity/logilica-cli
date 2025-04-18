@@ -1,5 +1,6 @@
 # Output directory
 output
+logilica-cli/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
