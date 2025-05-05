@@ -1,6 +1,7 @@
 import logging
 from typing import Any
 
+import click
 from playwright.sync_api import expect, Page
 
 
@@ -30,7 +31,12 @@ class LoginPage:
         self.password_field.fill(self.credentials["password"])
         self.login_button.click()
 
-        self.complete_login()
+        try:
+            expect(self.page).not_to_have_url(self.LOGILICA_LOGIN)
+        except AssertionError:
+            logging.error("Login failed")
+            raise ValueError("Login credentials rejected")
+        logging.debug("Login to Logilica complete")
 
     def login_with_sso(self):
         logging.info("Logging into Logilica via SSO")
@@ -38,12 +44,16 @@ class LoginPage:
         self.domain_field.fill(self.credentials["domain"])
         self.login_button.click()
 
-        self.complete_login()
+        click.echo("Please complete the SSO login in the Chromium window.")
+        self.page.wait_for_url(
+            "**/*redirect*", timeout=120000
+        )  # "https://logilica.io/thirdPartyLogin/redirect"
+        click.echo(
+            "SSO login completed successfully; continuing. (Please do not disturb the Chromium window.)"
+        )
 
-    def complete_login(self):
-        try:
-            expect(self.page).not_to_have_url(self.LOGILICA_LOGIN)
-        except AssertionError:
-            logging.error("Login failed")
-            raise ValueError("Login credentials rejected")
-        logging.debug("Login to Logilica complete")
+        # There are some intermediate steps that have to complete before we
+        # can return to navigation, so wait for the main page to appear before
+        # returning control to the caller.  (The main page is locally unique in
+        # that its URL ends in a slash (https://logilica.io/).
+        self.page.wait_for_url(lambda s: s.endswith("/"))

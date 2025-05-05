@@ -5,11 +5,11 @@ import shutil
 
 import click
 
+from logilica_weekly_report import common_options, sort_click_command_parameters
+from logilica_weekly_report.logilica_session import LogilicaSession
 from logilica_weekly_report.page_dashboard import DashboardPage
-from logilica_weekly_report.page_login import LoginPage
 from logilica_weekly_report.pdf_convert import PDFConvert
 from logilica_weekly_report.pdf_extract import PDFExtract
-from logilica_weekly_report.playwright_session import PlaywrightSession
 from logilica_weekly_report.update_gdoc import (
     generate_html,
     get_google_credentials,
@@ -20,34 +20,9 @@ from logilica_weekly_report.update_gdoc import (
 DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 
+@sort_click_command_parameters
 @click.command()
-@click.option(
-    "--username",
-    "-u",
-    envvar="LOGILICA_EMAIL",
-    required=True,
-    show_default=True,
-    show_envvar=True,
-    help="Logilica Login Credentials: User Email",
-)
-@click.password_option(
-    "--password",
-    "-p",
-    envvar="LOGILICA_PASSWORD",
-    show_default=True,
-    show_envvar=True,
-    required=True,
-    help="Logilica Login Credentials: Password",
-)
-@click.option(
-    "--domain",
-    "-d",
-    envvar="LOGILICA_DOMAIN",
-    show_default=True,
-    show_envvar=True,
-    required=True,
-    help="Logilica Login Credentials: Organization Name",
-)
+@common_options
 @click.option(
     "--downloads-temp-dir",
     "-t",
@@ -123,6 +98,7 @@ def weekly_report(
     username: str,
     password: str,
     domain: str,
+    oauth: bool,
     downloads_temp_dir: Path,
     source: str,
     output: str,
@@ -178,11 +154,7 @@ def weekly_report(
     try:
         if source == "logilica":
             logging.info("Starting session")
-            with PlaywrightSession() as page:
-                login_page = LoginPage(page=page, credentials=logilica_credentials)
-                login_page.navigate()
-                login_page.login_with_email()
-
+            with LogilicaSession(oauth, logilica_credentials) as page:
                 dashboard_page = DashboardPage(page=page)
                 dashboard_page.download_team_dashboards(
                     teams=configuration["teams"], base_dir_path=downloads_temp_dir

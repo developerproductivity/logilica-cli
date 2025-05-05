@@ -1,5 +1,7 @@
 import click
 
+from logilica_weekly_report import common_options, sort_click_command_parameters
+from logilica_weekly_report.logilica_session import LogilicaSession
 from logilica_weekly_report.page_login import LoginPage
 from logilica_weekly_report.page_settings import SettingsPage
 from logilica_weekly_report.playwright_session import PlaywrightSession
@@ -9,20 +11,16 @@ DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
 DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 
+@sort_click_command_parameters
 @click.command()
-@click.option(
-    "--domain",
-    "-d",
-    envvar="LOGILICA_DOMAIN",
-    show_default=True,
-    show_envvar=True,
-    required=True,
-    help="Logilica Login Credentials: Organization Name",
-)
+@common_options
 @click.pass_context
 def data_sources(
     context: click.Context,
+    username: str,
+    password: str,
     domain: str,
+    oauth: bool,
 ) -> None:
     """Synchronizes configuration of integrations with the configuration file.
 
@@ -53,14 +51,13 @@ def data_sources(
 
     exit_status = 0
     configuration = context.obj["configuration"]
-    logilica_credentials = {"domain": domain}
-
+    logilica_credentials = {
+        "username": username,
+        "password": password,
+        "domain": domain,
+    }
     try:
-        with PlaywrightSession(headless=False) as page:
-            login_page = LoginPage(page=page, credentials=logilica_credentials)
-            login_page.navigate()
-            login_page.login_with_sso()
-
+        with LogilicaSession(oauth, logilica_credentials) as page:
             settings_page = SettingsPage(page=page)
             settings_page.sync_integrations(integrations=configuration["integrations"])
 

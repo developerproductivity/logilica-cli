@@ -77,6 +77,7 @@ Commands:
 
   For more information, see https://github.com/developerproductivity/logilica-
   weekly-report#logilica-weekly-report
+
 ```
 
 ```text
@@ -86,10 +87,6 @@ Usage: logilica-weekly-report weekly-report [OPTIONS]
   configuration.
 
 Options:
-  -u, --username TEXT             Logilica Login Credentials: User Email  [env
-                                  var: LOGILICA_EMAIL; required]
-  -p, --password TEXT             Logilica Login Credentials: Password  [env
-                                  var: LOGILICA_PASSWORD; required]
   -d, --domain TEXT               Logilica Login Credentials: Organization
                                   Name  [env var: LOGILICA_DOMAIN; required]
   -t, --downloads-temp-dir DIRECTORY
@@ -100,13 +97,17 @@ Options:
   -I, --input [logilica|local]    Input source -- download from Logilica or
                                   use pre-downloaded files  [default:
                                   logilica]
+  -S, --oauth, --sso / --email, --no-sso, --no-oauth
+                                  Use SSO/OAuth dialog instead of specifying a
+                                  username and password for Logilica access
+                                  [default: email]
   -O, --output, --output-type [gdoc|console|images-only|markdown|html|markdown-with-refs|html-with-refs]
                                   Output format of how individual PDF file is
                                   processed:
 
                                   gdoc: HTML with an embedded image
-                                  representing whole dashboard and stored  as
-                                  a Google Doc on Google Drive
+                                  representing whole dashboard and stored as a
+                                  Google Doc on Google Drive
 
                                   console: HTML with an embedded image
                                   representing whole dashboard to stdout
@@ -130,10 +131,14 @@ Options:
                                   HTML, with images stored externally and
                                   referenced. Images might represent
                                   individual charts.  [default: gdoc]
+  -p, --password TEXT             Logilica Login Credentials: Password  [env
+                                  var: LOGILICA_PASSWORD]
   -s, --scale FLOAT               Resolution of the images scale factor * 72
                                   DPI. Higher the number, higher the
                                   resolution and size of the images  [default:
                                   1.0]
+  -u, --username TEXT             Logilica Login Credentials: User Email  [env
+                                  var: LOGILICA_EMAIL]
   --help                          Show this message and exit.
 ```
 
@@ -143,9 +148,17 @@ Usage: logilica-weekly-report data-sources [OPTIONS]
   Synchronizes configuration of integrations with the configuration file.
 
 Options:
-  -d, --domain TEXT  Logilica Login Credentials: Organization Name  [env var:
-                     LOGILICA_DOMAIN; required]
-  --help             Show this message and exit.
+  -d, --domain TEXT               Logilica Login Credentials: Organization
+                                  Name  [env var: LOGILICA_DOMAIN; required]
+  -S, --oauth, --sso / --email, --no-sso, --no-oauth
+                                  Use SSO/OAuth dialog instead of specifying a
+                                  username and password for Logilica access
+                                  [default: email]
+  -p, --password TEXT             Logilica Login Credentials: Password  [env
+                                  var: LOGILICA_PASSWORD]
+  -u, --username TEXT             Logilica Login Credentials: User Email  [env
+                                  var: LOGILICA_EMAIL]
+  --help                          Show this message and exit.
 ```
 Some dashboards can be quite slow to load into the UI, so, if you are running
 the tool interactively and wish to track its progress, add a `-v` to the command

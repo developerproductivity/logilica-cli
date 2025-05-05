@@ -7,6 +7,7 @@ from click import Command
 from jsonschema import ValidationError
 import yaml
 
+from logilica_weekly_report import sort_click_command_parameters
 from logilica_weekly_report.cli_data_sources import data_sources
 from logilica_weekly_report.cli_weekly_report import weekly_report
 from logilica_weekly_report.configuration_schema import validate_configuration
@@ -19,6 +20,7 @@ DEFAULT_OUTPUT_DIR = "./output"
 logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WARNING)
 
 
+@sort_click_command_parameters
 @click.group(
     epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
 )
