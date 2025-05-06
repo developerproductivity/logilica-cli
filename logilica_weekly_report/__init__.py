@@ -9,7 +9,8 @@ import click
 
 
 def compose_options(cmd_func: Callable, opt_list: List[Callable]) -> Callable:
-    """Utility function which composes a list of click.options into a single decorator
+    """Helper function which composes a list of click.options into a single
+    decorator.
 
     Args:
         cmd_func:  the Click command function to be decorated
@@ -25,11 +26,12 @@ def compose_options(cmd_func: Callable, opt_list: List[Callable]) -> Callable:
 
 
 def sort_click_command_parameters(cmd_func) -> Callable:
-    """A decorator which sorts the Click command parameter list (arguments and options)
+    """Decorator which sorts the Click command parameter list (arguments and
+    options)
 
-    We grab the list of click.Parameter's from the click.Command object which we
-    are passed as our input and sort it (in place).  We use the longest option
-    (including the hyphens) as the sort key value.
+    We grab the list of click.Parameter's from the click.Command object which
+    we are passed as our input and sort it (in place).  We use the longest
+    option (including the hyphens) as the sort key value.
     """
     assert isinstance(
         cmd_func, click.Command
@@ -41,7 +43,7 @@ def sort_click_command_parameters(cmd_func) -> Callable:
 
 
 def common_options(f):
-    """Options used by multiple subcommands"""
+    """Options used by multiple subcommands."""
 
     return compose_options(
         f,

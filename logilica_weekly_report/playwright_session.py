@@ -28,7 +28,8 @@ class PlaywrightSession:
 
 class LogilicaSession(PlaywrightSession):
     """Encapsulation of a logged-in Logilica session as an extension of a
-    PlaywrightSession"""
+    PlaywrightSession.
+    """
 
     def __init__(self, oauth: bool, logilica_credentials: dict[str, str]):
         super().__init__(headless=not oauth)
@@ -37,7 +38,8 @@ class LogilicaSession(PlaywrightSession):
 
     def __enter__(self) -> Page:
         """Start the Playwright session, log into Logilica, and return the
-        Playwright Page for additional navigation"""
+        Playwright Page for additional navigation.
+        """
         page = super().__enter__()
         login_page = LoginPage(page=page, credentials=self.credentials)
         login_page.navigate()

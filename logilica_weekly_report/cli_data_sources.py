@@ -1,9 +1,8 @@
 import click
 
 from logilica_weekly_report import common_options, sort_click_command_parameters
-from logilica_weekly_report.page_login import LoginPage
 from logilica_weekly_report.page_settings import SettingsPage
-from logilica_weekly_report.playwright_session import LogilicaSession, PlaywrightSession
+from logilica_weekly_report.playwright_session import LogilicaSession
 
 # Default values for command options
 DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
