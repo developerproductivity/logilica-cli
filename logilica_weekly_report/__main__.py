@@ -7,6 +7,7 @@ from click import Command
 from jsonschema import ValidationError
 import yaml
 
+from logilica_weekly_report import sort_click_command_parameters
 from logilica_weekly_report.cli_data_sources import data_sources
 from logilica_weekly_report.cli_weekly_report import weekly_report
 from logilica_weekly_report.configuration_schema import validate_configuration
@@ -19,35 +20,9 @@ DEFAULT_OUTPUT_DIR = "./output"
 logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WARNING)
 
 
+@sort_click_command_parameters
 @click.group(
     epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
-)
-@click.option(
-    "--username",
-    "-u",
-    envvar="LOGILICA_EMAIL",
-    required=True,
-    show_default=True,
-    show_envvar=True,
-    help="Logilica Login Credentials: User Email",
-)
-@click.password_option(
-    "--password",
-    "-p",
-    envvar="LOGILICA_PASSWORD",
-    show_default=True,
-    show_envvar=True,
-    required=True,
-    help="Logilica Login Credentials: Password",
-)
-@click.option(
-    "--domain",
-    "-d",
-    envvar="LOGILICA_DOMAIN",
-    show_default=True,
-    show_envvar=True,
-    required=True,
-    help="Logilica Login Credentials: Organization Name",
 )
 @click.option(
     "--config",
@@ -90,10 +65,7 @@ logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WAR
 def cli(
     context: click.Context,
     config_file_path: pathlib.Path,
-    domain: str,
     output_dir_path: str,
-    username: str,
-    password: str,
     pwdebug: bool,
     verbose: int,
 ) -> None:
@@ -128,11 +100,6 @@ def cli(
 
     context.ensure_object(dict)
     context.obj["configuration"] = configuration
-    context.obj["logilica_credentials"] = {
-        "username": username,
-        "password": password,
-        "domain": domain,
-    }
     context.obj["output_dir_path"] = output_dir_path
 
 

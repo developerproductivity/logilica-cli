@@ -5,11 +5,11 @@ import shutil
 
 import click
 
+from logilica_weekly_report import common_options, sort_click_command_parameters
 from logilica_weekly_report.page_dashboard import DashboardPage
-from logilica_weekly_report.page_login import LoginPage
 from logilica_weekly_report.pdf_convert import PDFConvert
 from logilica_weekly_report.pdf_extract import PDFExtract
-from logilica_weekly_report.playwright_session import PlaywrightSession
+from logilica_weekly_report.playwright_session import LogilicaSession
 from logilica_weekly_report.update_gdoc import (
     generate_html,
     get_google_credentials,
@@ -20,7 +20,9 @@ from logilica_weekly_report.update_gdoc import (
 DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 
+@sort_click_command_parameters
 @click.command()
+@common_options
 @click.option(
     "--downloads-temp-dir",
     "-t",
@@ -60,18 +62,24 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
     show_default=True,
     help="""Output format of how individual PDF file is processed:
 
-    gdoc: HTML with an embedded image represeting whole dashboard and
-        stored as a Google Doc on Google Drive
-    console: HTML with an embedded image represeting whole dashboard to stdout
+    gdoc: HTML with an embedded image representing whole dashboard and stored
+    as a Google Doc on Google Drive
+
+    console: HTML with an embedded image representing whole dashboard to stdout
+
     images-only: Embedded image only as a PNG.
-    markdown: PDF parsed by docling into Markdown, with images embedded
-        in it. Images might represent individual charts.
-    html: PDF parsed by docling into HTML, with images embedded in it.
-        Images might represent individual charts.
-    markdown-with-refs: PDF parsed by docling into Markdown, with images stored
-        externally and referenced. Images might represent individual charts.
+
+    markdown: PDF parsed by docling into Markdown, with images embedded in it.
+    Images might represent individual charts.
+
+    html: PDF parsed by docling into HTML, with images embedded in it.  Images
+    might represent individual charts.
+
+    markdown-with-refs: PDF parsed by docling into Markdown, with images
+    stored externally and referenced. Images might represent individual charts.
+
     html-with-refs: PDF parsed by docling into HTML, with images stored
-        externally and referenced. Images might represent individual charts.
+    externally and referenced. Images might represent individual charts.
     """,
 )
 @click.option(
@@ -87,6 +95,10 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 @click.pass_context
 def weekly_report(
     context: click.Context,
+    username: str,
+    password: str,
+    domain: str,
+    oauth: bool,
     downloads_temp_dir: Path,
     source: str,
     output: str,
@@ -121,7 +133,11 @@ def weekly_report(
     exit_status = 0
     configuration = context.obj["configuration"]
     config = configuration.get("config", {})
-    logilica_credentials = context.obj["logilica_credentials"]
+    logilica_credentials = {
+        "username": username,
+        "password": password,
+        "domain": domain,
+    }
     output_dir_path = context.obj["output_dir_path"]
 
     # If needed, get the credentials now to enable "failing early".
@@ -138,11 +154,7 @@ def weekly_report(
     try:
         if source == "logilica":
             logging.info("Starting session")
-            with PlaywrightSession() as page:
-                login_page = LoginPage(page=page, credentials=logilica_credentials)
-                login_page.navigate()
-                login_page.login()
-
+            with LogilicaSession(oauth, logilica_credentials) as page:
                 dashboard_page = DashboardPage(page=page)
                 dashboard_page.download_team_dashboards(
                     teams=configuration["teams"], base_dir_path=downloads_temp_dir
@@ -154,11 +166,11 @@ def weekly_report(
             scale=scale,
         )
         if output in ("markdown", "html", "markdown-with-refs", "html-with-refs"):
-            format = output.removesuffix("-with-refs")
+            o_format = output.removesuffix("-with-refs")
             embed_images = not output.endswith("-with-refs")
             converter.to_format_multiple(
                 teams=configuration["teams"],
-                format=format,
+                format=o_format,
                 embed_images=embed_images,
             )
         else:
