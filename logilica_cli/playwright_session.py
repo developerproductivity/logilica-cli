@@ -2,7 +2,7 @@ from typing import Optional
 
 from playwright.sync_api import BrowserContext, Page, sync_playwright
 
-from logilica_weekly_report.page_login import LoginPage
+from logilica_cli.page_login import LoginPage
 
 
 class PlaywrightSession:

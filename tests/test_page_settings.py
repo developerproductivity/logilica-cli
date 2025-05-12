@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 from pytest import raises
 import yaml
 
-from logilica_weekly_report.page_settings import SettingsPage
+from logilica_cli.page_settings import SettingsPage
 
 with open(Path(__file__).parent / "fixtures/config.yaml", "r") as yaml_file:
     FULL_CONFIG = yaml.safe_load(yaml_file)
@@ -48,7 +48,7 @@ def has_entity_id_imported_side_effect(*args, **kwargs):
 
 def test_sync_repositories():
     for integrations in [GH_INTEGRATION_MEMBERSHIP, GH_INTEGRATION]:
-        with patch("logilica_weekly_report.page_settings.expect") as mock_expect:
+        with patch("logilica_cli.page_settings.expect") as mock_expect:
             page_mock = MagicMock()
             page_mock.get_by_text.side_effect = has_entity_id_imported_side_effect
             mock_expect.return_value = page_mock
@@ -58,7 +58,7 @@ def test_sync_repositories():
 
 
 def test_sync_boards():
-    with patch("logilica_weekly_report.page_settings.expect") as mock_expect:
+    with patch("logilica_cli.page_settings.expect") as mock_expect:
         page_mock = MagicMock()
         page_mock.get_by_text.side_effect = has_entity_id_imported_side_effect
 
@@ -74,7 +74,7 @@ def test_sync_boards():
 
 
 def test_missing_entities():
-    with patch("logilica_weekly_report.page_settings.expect") as mock_expect:
+    with patch("logilica_cli.page_settings.expect") as mock_expect:
         page_mock = MagicMock()
         page_mock.get_by_text.side_effect = has_entity_id_imported_side_effect
 

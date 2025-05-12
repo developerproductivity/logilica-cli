@@ -47,7 +47,7 @@ jobs:
         run: |
           pytest --timeout=300 \
               --cov-config pyproject.toml \
-              --cov=logilica_weekly_report --cov=tests \
+              --cov=logilica_cli --cov=tests \
               --cov-report=term --cov-report=html
       - name: Publish coverage report to job summary
         # publishing only once

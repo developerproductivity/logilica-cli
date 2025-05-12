@@ -7,10 +7,10 @@ from click import Command
 from jsonschema import ValidationError
 import yaml
 
-from logilica_weekly_report import sort_click_command_parameters
-from logilica_weekly_report.cli_data_sources import data_sources
-from logilica_weekly_report.cli_weekly_report import weekly_report
-from logilica_weekly_report.configuration_schema import validate_configuration
+from logilica_cli import sort_click_command_parameters
+from logilica_cli.cli_data_sources import data_sources
+from logilica_cli.cli_weekly_report import weekly_report
+from logilica_cli.configuration_schema import validate_configuration
 
 # Default values for command options
 DEFAULT_CONFIG_FILE = "./weekly_report.yaml"

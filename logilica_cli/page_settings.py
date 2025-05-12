@@ -11,7 +11,7 @@ except ImportError:
 
 from playwright.sync_api import expect, Locator, Page
 
-from logilica_weekly_report.page_navigation import NavigationPanel
+from logilica_cli.page_navigation import NavigationPanel
 
 IntegrationSyncFailures: TypeAlias = dict[Tuple[str, str], list[Tuple[str, str]]]
 
