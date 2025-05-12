@@ -76,7 +76,7 @@ Commands:
   weekly-report  Downloads and processes weekly report for teams...
 
   For more information, see https://github.com/developerproductivity/logilica-
-  weekly-report#logilica-weekly-report
+  cli#logilica-cli
 
 ```
 

@@ -22,7 +22,7 @@ logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WAR
 
 @sort_click_command_parameters
 @click.group(
-    epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
+    epilog="For more information, see https://github.com/developerproductivity/logilica-cli#logilica-cli"
 )
 @click.option(
     "--config",
