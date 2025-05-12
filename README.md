@@ -1,4 +1,4 @@
-# logilica-weekly-report
+# `logilica-cli`
 
 This project exports charts and text from Logilica reports and makes them
 available in a variety of formats, including HTML, Markdown, and Google Docs.
@@ -57,7 +57,7 @@ directory, but an alternate path can be specified on the command line.
 
 Help is available on the command line:
 ```text
-Usage: logilica-weekly-report [OPTIONS] COMMAND [ARGS]...
+Usage: logilica-cli [OPTIONS] COMMAND [ARGS]...
 
   A tool to automate UI interactions with Logilica.
 
@@ -81,7 +81,7 @@ Commands:
 ```
 
 ```text
-Usage: logilica-weekly-report weekly-report [OPTIONS]
+Usage: logilica-cli weekly-report [OPTIONS]
 
   Downloads and processes weekly report for teams specified in the
   configuration.
@@ -143,7 +143,7 @@ Options:
 ```
 
 ```text
-Usage: logilica-weekly-report data-sources [OPTIONS]
+Usage: logilica-cli data-sources [OPTIONS]
 
   Synchronizes configuration of integrations with the configuration file.
 
