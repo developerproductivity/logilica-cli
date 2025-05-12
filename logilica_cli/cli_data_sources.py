@@ -5,7 +5,6 @@ from logilica_cli.page_settings import SettingsPage
 from logilica_cli.playwright_session import LogilicaSession
 
 # Default values for command options
-DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
 DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
 
 

@@ -13,7 +13,7 @@ from logilica_cli.cli_weekly_report import weekly_report
 from logilica_cli.configuration_schema import validate_configuration
 
 # Default values for command options
-DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
+DEFAULT_CONFIG_FILE = "./logilica-cli.yaml"
 DEFAULT_OUTPUT_DIR = "./output"
 
 # Set up logging and create the Bottle application

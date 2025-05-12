@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "logilica-cli"
 version = "0.1.0"
-description = "A tool which extracts content from Logilica and includes it in the weekly report."
+description = "A tool which provdes CLI access to the Logilica UI."
 readme = "README.md"
 authors = [{ name = "The Developer Practices Team", email = "developer-productivity@redhat.com" }]
 license = {"text" = "Apache-2.0"}
