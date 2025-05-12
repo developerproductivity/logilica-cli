@@ -80,6 +80,8 @@ integrations:
       - issues.redhat.com/PSINFRA
       - issues.redhat.com/RHDHBUGS
       - issues.redhat.com/RHDHPAI
+      - issues.redhat.com/RHDHSUPP
+      - issues.redhat.com/RHDHPLAN
       - issues.redhat.com/RHDP
       - issues.redhat.com/RHIDP
       - issues.redhat.com/SANDBOX
@@ -296,3 +298,26 @@ integrations:
       - eclipse-jdtls/eclipse.jdt.ls
       - eclipse-lsp4mp/lsp4mp
       - openshift/console
+      - redhat-ai-dev/ai-lab-template
+      - redhat-ai-dev/ai-lab-app
+      - redhat-ai-dev/model-catalog-template
+      - redhat-ai-dev/ollama-ubi
+      - redhat-ai-dev/ai-lab-helm-charts
+      - redhat-ai-dev/ai-rhdh-installer
+      - redhat-ai-dev/model-catalog-example
+      - redhat-ai-dev/rhdh-pipelines
+      - redhat-ai-dev/ai-lab-samples
+      - redhat-ai-dev/ai-lab-template-experiment
+      - redhat-ai-dev/models-aas
+      - redhat-ai-dev/ai-template-bootstrap-app
+      - redhat-ai-dev/developer-images
+      - redhat-ai-dev/odh-kubeflow-model-registry-setup
+      - redhat-ai-dev/rhdh-ai-catalog-cli
+      - redhat-ai-dev/model-catalog-bridge
+      - redhat-ai-dev/ai-rolling-demo-gitops
+      - redhat-ai-dev/rosa-gitops
+      - redhat-ai-dev/rcs-support
+      - redhat-ai-dev/rhdh-plugins
+      - redhat-ai-dev/model-catalog-generator
+      - redhat-ai-dev/backstage-template-test
+      - redhat-ai-dev/dev-ai-bash
