@@ -17,7 +17,7 @@ DEFAULT_CONFIG_FILE = "./logilica-cli.yaml"
 DEFAULT_OUTPUT_DIR = "./output"
 
 # Set up logging and create the Bottle application
-logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WARNING)
+logging.basicConfig(format="[%(levelname)s] logilica-cli: %(message)s", level=logging.WARNING)
 
 
 @sort_click_command_parameters
@@ -77,7 +77,7 @@ def cli(
 
     Using the Click support, we parse the command line, extract the
     configuration information, store some of it in the Click context, and then
-    pass it to other commands that interact with UI using Playwright.
+    pass it to other commands that interact with the UI using Playwright.
     """
 
     if verbose:

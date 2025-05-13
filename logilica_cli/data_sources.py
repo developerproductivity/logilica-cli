@@ -4,9 +4,6 @@ from logilica_cli import common_options, sort_click_command_parameters
 from logilica_cli.page_settings import SettingsPage
 from logilica_cli.playwright_session import LogilicaSession
 
-# Default values for command options
-DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
-
 
 @sort_click_command_parameters
 @click.command()
