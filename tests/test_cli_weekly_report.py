@@ -5,7 +5,7 @@ from click.testing import CliRunner
 from pytest import approx, fixture
 import yaml
 
-from logilica_weekly_report.__main__ import cli
+from logilica_cli.__main__ import cli
 
 with open(Path(__file__).parent / "fixtures/config.yaml", "r") as yaml_file:
     FULL_CONFIG = yaml.safe_load(yaml_file)

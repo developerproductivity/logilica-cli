@@ -7,22 +7,22 @@ from click import Command
 from jsonschema import ValidationError
 import yaml
 
-from logilica_weekly_report import sort_click_command_parameters
-from logilica_weekly_report.cli_data_sources import data_sources
-from logilica_weekly_report.cli_weekly_report import weekly_report
-from logilica_weekly_report.configuration_schema import validate_configuration
+from logilica_cli import sort_click_command_parameters
+from logilica_cli.data_sources import data_sources
+from logilica_cli.weekly_report import weekly_report
+from logilica_cli.configuration_schema import validate_configuration
 
 # Default values for command options
-DEFAULT_CONFIG_FILE = "./weekly_report.yaml"
+DEFAULT_CONFIG_FILE = "./logilica-cli.yaml"
 DEFAULT_OUTPUT_DIR = "./output"
 
 # Set up logging and create the Bottle application
-logging.basicConfig(format="[%(levelname)s] lwr: %(message)s", level=logging.WARNING)
+logging.basicConfig(format="[%(levelname)s] logilica-cli: %(message)s", level=logging.WARNING)
 
 
 @sort_click_command_parameters
 @click.group(
-    epilog="For more information, see https://github.com/developerproductivity/logilica-weekly-report#logilica-weekly-report"
+    epilog="For more information, see https://github.com/developerproductivity/logilica-cli#logilica-cli"
 )
 @click.option(
     "--config",
@@ -77,7 +77,7 @@ def cli(
 
     Using the Click support, we parse the command line, extract the
     configuration information, store some of it in the Click context, and then
-    pass it to other commands that interact with UI using Playwright.
+    pass it to other commands that interact with the UI using Playwright.
     """
 
     if verbose:

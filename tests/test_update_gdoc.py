@@ -11,7 +11,7 @@ from googleapiclient.errors import HttpError
 import platformdirs
 import yaml
 
-from logilica_weekly_report.update_gdoc import (
+from logilica_cli.update_gdoc import (
     APPLICATION_NAME,
     DEFAULT_APP_CREDENTIALS_FILE_NAME,
     DEFAULT_GDRIVE_FILE_TEMPLATE,
@@ -23,7 +23,7 @@ from logilica_weekly_report.update_gdoc import (
     upload_doc,
 )
 
-CUT = "logilica_weekly_report.update_gdoc."
+CUT = "logilica_cli.update_gdoc."
 
 DEFAULT_CONFIGS = (
     """---

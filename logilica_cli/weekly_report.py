@@ -5,12 +5,12 @@ import shutil
 
 import click
 
-from logilica_weekly_report import common_options, sort_click_command_parameters
-from logilica_weekly_report.page_dashboard import DashboardPage
-from logilica_weekly_report.pdf_convert import PDFConvert
-from logilica_weekly_report.pdf_extract import PDFExtract
-from logilica_weekly_report.playwright_session import LogilicaSession
-from logilica_weekly_report.update_gdoc import (
+from logilica_cli import common_options, sort_click_command_parameters
+from logilica_cli.page_dashboard import DashboardPage
+from logilica_cli.pdf_convert import PDFConvert
+from logilica_cli.pdf_extract import PDFExtract
+from logilica_cli.playwright_session import LogilicaSession
+from logilica_cli.update_gdoc import (
     generate_html,
     get_google_credentials,
     upload_doc,

@@ -6,7 +6,7 @@ import unittest
 from jsonschema import ValidationError
 import yaml
 
-from logilica_weekly_report.configuration_schema import validate_configuration
+from logilica_cli.configuration_schema import validate_configuration
 
 with open(Path(__file__).parent / "fixtures/config.yaml", "r") as yaml_file:
     FULL_CONFIG = yaml.safe_load(yaml_file)

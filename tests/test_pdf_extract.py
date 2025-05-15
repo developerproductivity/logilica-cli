@@ -2,7 +2,7 @@ import pathlib
 
 from pytest import approx
 
-from logilica_weekly_report.pdf_extract import PDFExtract
+from logilica_cli.pdf_extract import PDFExtract
 
 
 def test_get_pdf_objects():

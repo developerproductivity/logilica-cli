@@ -1,4 +1,4 @@
-# logilica-weekly-report
+# logilica-cli
 #
 # A tool for fetching Logilica reports, extracting their contents, and
 # presenting them in various ways.

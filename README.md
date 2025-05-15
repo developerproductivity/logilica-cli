@@ -1,13 +1,14 @@
-# logilica-weekly-report
+# `logilica-cli`
 
-This project exports charts and text from Logilica reports and makes them
-available in a variety of formats, including HTML, Markdown, and Google Docs.
-The tool can also be used to configure Logilica integrations, supporting a
-"configuration as code" approach.
+`logilica-cli` is a command-line tool which provides CLI access to the Logilica
+UI.  The tool currently provides two subcommands.  The first exports charts and
+text from Logilica reports and makes them available in a variety of formats,
+including HTML, Markdown, and as a Google Docs document.  The second is used to
+configure Logilica integrations, supporting a "configuration as code" approach.
 
 The tool is configured via a YAML file which contains tool configuration
-options and options for exporting data or configuring Logilica.  By default,
-the file `weekly_report.yaml` in the current directory is used, but an
+options as well as options for exporting data or configuring Logilica.  By
+default, the file `logica-cli.yaml` in the current directory is used, but an
 alternate path can be specified on the command line.
 
 For export, the configuration includes a list of teams.  For each team, it
@@ -27,17 +28,15 @@ Logilica dashboard for it, and add the team and the dashboard information to
 the configuration file.
 
 Credentials for accessing Logilica are provided by command line options or by
-the environment variables,
-`LOGILICA_DOMAIN`, `LOGILICA_EMAIL`, and `LOGILICA_PASSWORD`.  (Note to the
-Developer Practices Team:  the appropriate values for the bot account can be
-obtained from the Bitwarden vault.)  Access for export uses an "email login",
-which is expected to specify a view-only "bot" account.  Access for
-configuration uses "SSO login" and requires the user to provide his/her own
-credentials for accountability reasons.  The tool normally runs in "headless"
-mode; however, in order to enable the user to perform an SSO login, the
-`data-sources` subcommand opens a browser window during the run.  (You should
-not interact with this window unless it prompts for your SSO credentials;
-otherwise, you are likely to disrupt the functioning of the tool.)
+the environment variables, `LOGILICA_DOMAIN`, `LOGILICA_EMAIL`, and
+`LOGILICA_PASSWORD`.  (Note to the Developer Practices Team:  the appropriate
+values for the bot accounts can be obtained from the Bitwarden vault; users
+with admin privileges can also create their own username/password credentials
+using the Logilica UI.)  For interactive use, OAuth or SSO credentials can be
+used. The tool normally runs in "headless" mode; however, in order to enable
+the user to perform an SSO login, the tool opens a browser window during the
+run.  (You should not interact with this window unless it prompts for your SSO
+credentials; otherwise, you are likely to disrupt the functioning of the tool.)
 
 To run the tool, check out the Git repo and run:
 ```pip install -r requirements.txt .```
@@ -57,13 +56,13 @@ directory, but an alternate path can be specified on the command line.
 
 Help is available on the command line:
 ```text
-Usage: logilica-weekly-report [OPTIONS] COMMAND [ARGS]...
+Usage: logilica-cli [OPTIONS] COMMAND [ARGS]...
 
   A tool to automate UI interactions with Logilica.
 
 Options:
   -C, --config FILE           Path to configuration file  [default:
-                              ./weekly_report.yaml]
+                              ./logilica-cli.yaml]
   -o, --output-dir DIRECTORY  Path to a directory to store output if image-
                               only output is selected  [default: ./output]
   -D, --pwdebug, --PWD        Enable Playwright debug mode
@@ -76,12 +75,12 @@ Commands:
   weekly-report  Downloads and processes weekly report for teams...
 
   For more information, see https://github.com/developerproductivity/logilica-
-  weekly-report#logilica-weekly-report
+  cli#logilica-cli
 
 ```
 
 ```text
-Usage: logilica-weekly-report weekly-report [OPTIONS]
+Usage: logilica-cli weekly-report [OPTIONS]
 
   Downloads and processes weekly report for teams specified in the
   configuration.
@@ -143,7 +142,7 @@ Options:
 ```
 
 ```text
-Usage: logilica-weekly-report data-sources [OPTIONS]
+Usage: logilica-cli data-sources [OPTIONS]
 
   Synchronizes configuration of integrations with the configuration file.
 
