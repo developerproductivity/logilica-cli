@@ -8,16 +8,18 @@ from jsonschema import ValidationError
 import yaml
 
 from logilica_cli import sort_click_command_parameters
+from logilica_cli.configuration_schema import validate_configuration
 from logilica_cli.data_sources import data_sources
 from logilica_cli.weekly_report import weekly_report
-from logilica_cli.configuration_schema import validate_configuration
 
 # Default values for command options
 DEFAULT_CONFIG_FILE = "./logilica-cli.yaml"
 DEFAULT_OUTPUT_DIR = "./output"
 
 # Set up logging and create the Bottle application
-logging.basicConfig(format="[%(levelname)s] logilica-cli: %(message)s", level=logging.WARNING)
+logging.basicConfig(
+    format="[%(levelname)s] logilica-cli: %(message)s", level=logging.WARNING
+)
 
 
 @sort_click_command_parameters
