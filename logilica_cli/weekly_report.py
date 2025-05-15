@@ -2,6 +2,7 @@ import logging
 import os
 from pathlib import Path
 import shutil
+import tempfile
 
 import click
 
@@ -16,9 +17,6 @@ from logilica_cli.update_gdoc import (
     upload_doc,
 )
 
-# Default values for command options
-DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
-
 
 @sort_click_command_parameters
 @click.command()
@@ -28,10 +26,12 @@ DEFAULT_DOWNLOADS_DIR = "./lwr_downloaded_pdfs"
     "-t",
     "downloads_temp_dir",
     type=click.Path(writable=True, file_okay=False, path_type=Path, resolve_path=True),
-    default=DEFAULT_DOWNLOADS_DIR,
-    show_default=True,
-    help="Path to a directory to receive downloaded files"
-    " (will be created if it doesn't exist; will be deleted if created)",
+    help=(
+        "Path to a directory to receive downloaded files"
+        " (if unspecified, a temporary directory will be used;"
+        " otherwise, the specified directory will be created if it doesn't exist;"
+        " if the directory is created by the tool, it will be deleted after the run)"
+    ),
 )
 @click.option(
     "--input",
@@ -143,13 +143,20 @@ def weekly_report(
     # If needed, get the credentials now to enable "failing early".
     google_credentials = get_google_credentials(config) if output == "gdoc" else None
 
-    remove_downloads = not downloads_temp_dir.exists()
-    logging.debug(
-        "download directory %s", "does not exist" if remove_downloads else "exists"
-    )
-    if remove_downloads:
+    remove_downloads = True
+    if not downloads_temp_dir:
+        downloads_temp_dir = Path(tempfile.mkdtemp())
+    elif not downloads_temp_dir.exists():
         os.mkdir(downloads_temp_dir)
-        logging.info("download directory, %s, created", downloads_temp_dir)
+        logging.info("download directory (%s) created", downloads_temp_dir)
+    else:
+        # The user supplied an existing directory, don't delete it
+        remove_downloads = False
+    logging.debug(
+        "download directory (%s) will%s be removed on termination",
+        downloads_temp_dir,
+        "" if remove_downloads else " not",
+    )
 
     try:
         if source == "logilica":
