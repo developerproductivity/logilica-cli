@@ -116,6 +116,8 @@ integrations:
       - codeready-toolchain/workload-analyzer
       - developerproductivity/costpuller
       - developerproductivity/logilica-cli
+      - developerproductivity/data-ingestion
+      - developerproductivity/gh-actions-exp
       - konflux-ci/build-definitions
       - konflux-ci/docs
       - konflux-ci/e2e-tests
@@ -151,7 +153,21 @@ integrations:
       - redhat-developer/vscode-java
       - redhat-developer/vscode-microprofile
       - redhat-developer/vscode-quarkus
+      - redhat-developer/podman-desktop-demo
+      - redhat-developer/podman-desktop-image-checker-openshift-ext
+      - redhat-developer/podman-desktop-redhat-account-ext
+      - redhat-developer/podman-desktop-redhat-pack-ext
+      - redhat-developer/podman-desktop-rhel-ext
+      - redhat-developer/podman-desktop-sandbox-ext
+      - redhat-developer/rhdh-plugin-registry
       - redhat-performance/opl
+      - redhat-openshift-builds/catalog
+      - redhat-openshift-builds/operator
+      - redhat-openshift-builds/release
+      - redhat-openshift-builds/samples
+      - redhat-openshift-builds/shipwright-io
+      - redhat-openshift-builds/shipwright-ip-build
+      - redhat-openshift-builds/strategy-catalog
   dprod-public-bot:
     connector: GitHub
     public_repositories:
@@ -264,6 +280,11 @@ integrations:
       - che-samples/web-python-gae-simple
       - che-samples/web-python2.7-simple
       - che-samples/web-rails-simple
+      - containers/podman-desktop-extension-ai-lab
+      - containers/podman-desktop-extension-ai-lab-playground-images
+      - containers/podman-desktop-internal
+      - containers/podmandesktop-media
+      - crc-org/crc-extension
       - devfile-samples/devfile-sample-code-with-quarkus
       - devfile-samples/devfile-sample-dotnet60-basic
       - devfile-samples/devfile-sample-go-basic
@@ -298,6 +319,20 @@ integrations:
       - eclipse-jdtls/eclipse.jdt.ls
       - eclipse-lsp4mp/lsp4mp
       - openshift/console
+      - orgs/podman-desktop
+      - podman-desktop/e2e
+      - podman-desktop/extension-bootc
+      - podman-desktop/extension-layers-explorer
+      - podman-desktop/extension-minikube
+      - podman-desktop/extension-podman-quadiet
+      - podman-desktop/extension-template-full
+      - podman-desktop/extension-template-minimal
+      - podman-desktop/extension-template-webview
+      - podman-desktop/podman-desktop
+      - podman-desktop/podman-desktop-catalog
+      - podman-desktop/prereleases
+      - podman-desktop/telemetry
+      - podman-desktop/testing-prereleases
       - redhat-ai-dev/ai-lab-template
       - redhat-ai-dev/ai-lab-app
       - redhat-ai-dev/model-catalog-template
