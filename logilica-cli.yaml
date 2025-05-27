@@ -309,6 +309,22 @@ integrations:
       - devfile-samples/web-coolstore
       - devfile/devworkspace-generator
       - devfile/registry
+      - devfile/developer-images
+      - devfile/alizer
+      - devfile/registry-support
+      - devfile/devfile-web
+      - devfile/cloud-dev-images
+      - devfile/api
+      - devfile/devworkspace-operator
+      - devfile/library
+      - devfile/registry-operator
+      - devfile/vscode-walkthrough-extension
+      - devfile/devfile-docker-plugin
+      - devfile/kubectl-debug-ide
+      - devfile/integration-tests
+      - devfile/devworkspace-operator-docs
+      - devfile/devfile.github.io
+      - devfile/pr-preview
       - eclipse-che/che-dashboard
       - eclipse-che/che-operator
       - eclipse-che/che-plugin-registry
