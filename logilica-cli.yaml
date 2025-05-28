@@ -165,7 +165,7 @@ integrations:
       - redhat-openshift-builds/release
       - redhat-openshift-builds/samples
       - redhat-openshift-builds/shipwright-io
-      - redhat-openshift-builds/shipwright-ip-build
+      - redhat-openshift-builds/shipwright-io-build
       - redhat-openshift-builds/strategy-catalog
       - redhat-performance/opl
   dprod-public-bot:
