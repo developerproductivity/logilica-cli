@@ -115,9 +115,9 @@ integrations:
       - codeready-toolchain/utils
       - codeready-toolchain/workload-analyzer
       - developerproductivity/costpuller
-      - developerproductivity/logilica-cli
       - developerproductivity/data-ingestion
       - developerproductivity/gh-actions-exp
+      - developerproductivity/logilica-cli
       - konflux-ci/build-definitions
       - konflux-ci/docs
       - konflux-ci/e2e-tests
@@ -136,6 +136,12 @@ integrations:
       - redhat-developer/devspaces-chectl
       - redhat-developer/devspaces-images
       - redhat-developer/intellij-quarkus
+      - redhat-developer/podman-desktop-demo
+      - redhat-developer/podman-desktop-image-checker-openshift-ext
+      - redhat-developer/podman-desktop-redhat-account-ext
+      - redhat-developer/podman-desktop-redhat-pack-ext
+      - redhat-developer/podman-desktop-rhel-ext
+      - redhat-developer/podman-desktop-sandbox-ext
       - redhat-developer/red-hat-developer-hub
       - redhat-developer/red-hat-developer-hub-customization-provider
       - redhat-developer/red-hat-developer-hub-software-templates
@@ -148,19 +154,12 @@ integrations:
       - redhat-developer/rhdh-plugin-export-backstage-backstage
       - redhat-developer/rhdh-plugin-export-backstage-community-plugins
       - redhat-developer/rhdh-plugin-export-utils
+      - redhat-developer/rhdh-plugin-registry
       - redhat-developer/rhdh-plugins
       - redhat-developer/rhdh-team-docs
       - redhat-developer/vscode-java
       - redhat-developer/vscode-microprofile
       - redhat-developer/vscode-quarkus
-      - redhat-developer/podman-desktop-demo
-      - redhat-developer/podman-desktop-image-checker-openshift-ext
-      - redhat-developer/podman-desktop-redhat-account-ext
-      - redhat-developer/podman-desktop-redhat-pack-ext
-      - redhat-developer/podman-desktop-rhel-ext
-      - redhat-developer/podman-desktop-sandbox-ext
-      - redhat-developer/rhdh-plugin-registry
-      - redhat-performance/opl
       - redhat-openshift-builds/catalog
       - redhat-openshift-builds/operator
       - redhat-openshift-builds/release
@@ -168,6 +167,7 @@ integrations:
       - redhat-openshift-builds/shipwright-io
       - redhat-openshift-builds/shipwright-ip-build
       - redhat-openshift-builds/strategy-catalog
+      - redhat-performance/opl
   dprod-public-bot:
     connector: GitHub
     public_repositories:
@@ -307,24 +307,24 @@ integrations:
       - devfile-samples/python-ex
       - devfile-samples/springboot-ex
       - devfile-samples/web-coolstore
-      - devfile/devworkspace-generator
-      - devfile/registry
-      - devfile/developer-images
       - devfile/alizer
-      - devfile/registry-support
-      - devfile/devfile-web
-      - devfile/cloud-dev-images
       - devfile/api
-      - devfile/devworkspace-operator
-      - devfile/library
-      - devfile/registry-operator
-      - devfile/vscode-walkthrough-extension
+      - devfile/cloud-dev-images
+      - devfile/developer-images
       - devfile/devfile-docker-plugin
-      - devfile/kubectl-debug-ide
-      - devfile/integration-tests
-      - devfile/devworkspace-operator-docs
+      - devfile/devfile-web
       - devfile/devfile.github.io
+      - devfile/devworkspace-generator
+      - devfile/devworkspace-operator
+      - devfile/devworkspace-operator-docs
+      - devfile/integration-tests
+      - devfile/kubectl-debug-ide
+      - devfile/library
       - devfile/pr-preview
+      - devfile/registry
+      - devfile/registry-operator
+      - devfile/registry-support
+      - devfile/vscode-walkthrough-extension
       - eclipse-che/che-dashboard
       - eclipse-che/che-operator
       - eclipse-che/che-plugin-registry
@@ -349,26 +349,26 @@ integrations:
       - podman-desktop/prereleases
       - podman-desktop/telemetry
       - podman-desktop/testing-prereleases
-      - redhat-ai-dev/ai-lab-template
       - redhat-ai-dev/ai-lab-app
-      - redhat-ai-dev/model-catalog-template
-      - redhat-ai-dev/ollama-ubi
       - redhat-ai-dev/ai-lab-helm-charts
-      - redhat-ai-dev/ai-rhdh-installer
-      - redhat-ai-dev/model-catalog-example
-      - redhat-ai-dev/rhdh-pipelines
       - redhat-ai-dev/ai-lab-samples
+      - redhat-ai-dev/ai-lab-template
       - redhat-ai-dev/ai-lab-template-experiment
-      - redhat-ai-dev/models-aas
-      - redhat-ai-dev/ai-template-bootstrap-app
-      - redhat-ai-dev/developer-images
-      - redhat-ai-dev/odh-kubeflow-model-registry-setup
-      - redhat-ai-dev/rhdh-ai-catalog-cli
-      - redhat-ai-dev/model-catalog-bridge
+      - redhat-ai-dev/ai-rhdh-installer
       - redhat-ai-dev/ai-rolling-demo-gitops
-      - redhat-ai-dev/rosa-gitops
-      - redhat-ai-dev/rcs-support
-      - redhat-ai-dev/rhdh-plugins
-      - redhat-ai-dev/model-catalog-generator
+      - redhat-ai-dev/ai-template-bootstrap-app
       - redhat-ai-dev/backstage-template-test
       - redhat-ai-dev/dev-ai-bash
+      - redhat-ai-dev/developer-images
+      - redhat-ai-dev/model-catalog-bridge
+      - redhat-ai-dev/model-catalog-example
+      - redhat-ai-dev/model-catalog-generator
+      - redhat-ai-dev/model-catalog-template
+      - redhat-ai-dev/models-aas
+      - redhat-ai-dev/odh-kubeflow-model-registry-setup
+      - redhat-ai-dev/ollama-ubi
+      - redhat-ai-dev/rcs-support
+      - redhat-ai-dev/rhdh-ai-catalog-cli
+      - redhat-ai-dev/rhdh-pipelines
+      - redhat-ai-dev/rhdh-plugins
+      - redhat-ai-dev/rosa-gitops
