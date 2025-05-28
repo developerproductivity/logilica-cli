@@ -283,7 +283,7 @@ integrations:
       - containers/podman-desktop-extension-ai-lab
       - containers/podman-desktop-extension-ai-lab-playground-images
       - containers/podman-desktop-internal
-      - containers/podmandesktop-media
+      - containers/podman-desktop-media
       - crc-org/crc-extension
       - devfile-samples/devfile-sample-code-with-quarkus
       - devfile-samples/devfile-sample-dotnet60-basic
@@ -340,7 +340,7 @@ integrations:
       - podman-desktop/extension-bootc
       - podman-desktop/extension-layers-explorer
       - podman-desktop/extension-minikube
-      - podman-desktop/extension-podman-quadiet
+      - podman-desktop/extension-podman-quadlet
       - podman-desktop/extension-template-full
       - podman-desktop/extension-template-minimal
       - podman-desktop/extension-template-webview
