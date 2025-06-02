@@ -40,10 +40,10 @@ credentials; otherwise, you are likely to disrupt the functioning of the tool.)
 
 To run the tool, check out the Git repo and run:
 ```pip install -r requirements.txt .```
-We recommend doing this inside a [virtual environment](https://docs.python.org/3/library/venv.html).
-(If you are doing development on the tool, you may want to specify `-e` in the
-`pip install` command.)  After installing the tool, you also need to install
-the browser which it uses to interact with the Logilica web UI:
+We recommend doing this inside a [virtual environment](https://docs.python.org/3/library/venv.html),
+which uses Python 3.12+. (If you are doing development on the tool, you may want
+to specify `-e` in the `pip install` command.)  After installing the tool, you also
+need to install the browser which it uses to interact with the Logilica web UI:
 ```playwright install chromium```  (For details on debugging the web interactions,
 see the `--pwdebug` option in the command help, below, and the
 [Playwright documentation](https://playwright.dev/python/docs/running-tests).)
