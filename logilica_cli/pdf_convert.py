@@ -92,7 +92,6 @@ class PDFConvert:
         teams: dict[str, dict[str, Any]],
         embed_images: bool = True,
     ) -> int:
-
         total = 0
         for team, dashboards in teams.items():
             for dashboard, options in dashboards["team_dashboards"].items():

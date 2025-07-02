@@ -9,8 +9,9 @@ class DashboardPage:
     PDF_EXPORT_TIMEOUT = 120000
 
     def __init__(self, page: Page):
-        # PDF generation might take longer than default 30000 ms timeout, so modify for this page in global
-        # It can be export or download button that takes time to become visible
+        # PDF generation might take longer than default 30000 ms timeout,
+        # so modify for this page in global.
+        # It can be export or download button that takes time to become visible.
         page.set_default_timeout(self.PDF_EXPORT_TIMEOUT)
         self.page = page
         self.export_pdf_button = page.get_by_role("button", name="Export PDF")

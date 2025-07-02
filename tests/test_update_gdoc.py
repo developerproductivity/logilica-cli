@@ -120,7 +120,10 @@ class TestUpdateGDoc(unittest.TestCase):
     def test_app_credentials_file_no_dir(self):
         for entry, expected_dir in (
             ("./my_app_credentials.json", Path(".")),
-            ("partial_dir/my_app_credentials.json", platformdirs.user_config_path("")),
+            (
+                "partial_dir/my_app_credentials.json",
+                platformdirs.user_config_path(""),
+            ),
             ("/opt/subdir/my_app_credentials.json", Path("")),
         ):
             config = {"google": {"app_credentials_file": entry}}

@@ -26,7 +26,6 @@ class SettingsPage:
     AVAILABLE_LIST_TIMEOUT = 54000
 
     def __init__(self, page: Page):
-
         self.page = page
         # UI elements for public access
         self.add_public_repository_dialog_button = page.get_by_role(
@@ -62,7 +61,9 @@ class SettingsPage:
         """
 
         logging.debug(
-            "Opening integration '%s', connector type:'%s'", integration, connector
+            "Opening integration '%s', connector type:'%s'",
+            integration,
+            connector,
         )
         self.page.locator("div.items-center").filter(has_text=connector).filter(
             has_text=integration
@@ -78,7 +79,8 @@ class SettingsPage:
         in integrations sections of the local configuration file.
 
         Raises:
-          RuntimeError: If any repositories could not have been added to the configuration.
+          RuntimeError:
+            If any repositories could not have been added to the configuration.
         """
 
         sync_failures: IntegrationSyncFailures = defaultdict(list)
@@ -278,7 +280,8 @@ class SettingsPage:
     ) -> bool:
         search_field.fill(entity_id)
 
-        # here we need to find the innermost div element that exactly matches repository slug
+        # Here we need to find the innermost div element
+        # that exactly matches repository slug.
         found = self.page.get_by_text(text=entity_id, exact=True).nth(0).is_visible()
         if found:
             logging.debug("✅%s '%s' is imported", entity_type, entity_id)
@@ -322,8 +325,8 @@ class SettingsPage:
         self.add_public_repository_dialog_button.click()
         self.add_public_repository_input.fill(f"{host}/{entity_id}.git")
         self.add_public_repository_confirm_button.click()
-        # as UI refresh is triggered independently of the click and there is no guarantee the repository will be added
-        # at the top of the page, we don't validate the action success here but later
+        # UI refresh is triggered independently of the click and there is no guarantee
+        # the repository will be added at the top of the page, we'll validate it later
         return True
 
     def add_membership_entity(
@@ -373,8 +376,8 @@ class SettingsPage:
             .get_by_role("button")
         )
 
-        # there might be the same slug in both imported repositories and available repositories
-        # in that case, we want to be able to select one specifically
+        # There might be the same slug in both imported repositories and available
+        # repositories, in that case, we want to be able to select one specifically.
         count = locator.count()
         if count == 1:
             return locator

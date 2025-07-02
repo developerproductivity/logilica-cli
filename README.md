@@ -1,18 +1,18 @@
 # `logilica-cli`
 
 `logilica-cli` is a command-line tool which provides CLI access to the Logilica
-UI.  The tool currently provides two subcommands.  The first exports charts and
+UI. The tool currently provides two subcommands. The first exports charts and
 text from Logilica reports and makes them available in a variety of formats,
-including HTML, Markdown, and as a Google Docs document.  The second is used to
+including HTML, Markdown, and as a Google Docs document. The second is used to
 configure Logilica integrations, supporting a "configuration as code" approach.
 
 The tool is configured via a YAML file which contains tool configuration
-options as well as options for exporting data or configuring Logilica.  By
+options as well as options for exporting data or configuring Logilica. By
 default, the file `logica-cli.yaml` in the current directory is used, but an
 alternate path can be specified on the command line.
 
-For export, the configuration includes a list of teams.  For each team, it
-specifies a list of Logilica dashboards and the team's Jira project.  For each
+For export, the configuration includes a list of teams. For each team, it
+specifies a list of Logilica dashboards and the team's Jira project. For each
 dashboard, it specifies the name of an output file (which must not conflict
 with any other team's dashboards' output files) and possibly other attributes.
 
@@ -29,32 +29,31 @@ the configuration file.
 
 Credentials for accessing Logilica are provided by command line options or by
 the environment variables, `LOGILICA_DOMAIN`, `LOGILICA_EMAIL`, and
-`LOGILICA_PASSWORD`.  (Note to the Developer Practices Team:  the appropriate
+`LOGILICA_PASSWORD`. (Note to the Developer Practices Team: the appropriate
 values for the bot accounts can be obtained from the Bitwarden vault; users
 with admin privileges can also create their own username/password credentials
-using the Logilica UI.)  For interactive use, OAuth or SSO credentials can be
+using the Logilica UI.) For interactive use, OAuth or SSO credentials can be
 used. The tool normally runs in "headless" mode; however, in order to enable
 the user to perform an SSO login, the tool opens a browser window during the
-run.  (You should not interact with this window unless it prompts for your SSO
+run. (You should not interact with this window unless it prompts for your SSO
 credentials; otherwise, you are likely to disrupt the functioning of the tool.)
 
-To run the tool, check out the Git repo and run:
-```pip install -r requirements.txt .```
+To install the tool, check out the Git repo and run:
+
+```
+pip install -r requirements.txt .
+playwright install chromium
+```
+
 We recommend doing this inside a [virtual environment](https://docs.python.org/3/library/venv.html),
-which uses Python 3.12+. (If you are doing development on the tool, you may want
-to specify `-e` in the `pip install` command.)  After installing the tool, you also
-need to install the browser which it uses to interact with the Logilica web UI:
-```playwright install chromium```  (For details on debugging the web interactions,
-see the `--pwdebug` option in the command help, below, and the
-[Playwright documentation](https://playwright.dev/python/docs/running-tests).)
+which uses Python 3.12+.
 
 The PDF files containing the downloaded Logilica reports are stored in a
 temporary directory which is created if it does not exist; if it was created by
-the tool, the directory is deleted after execution is complete.  By default,
-the directory is named `lwr_downloaded_pdfs`, and it is created in the current
-directory, but an alternate path can be specified on the command line.
+the tool, the directory is deleted after execution is complete.
 
 Help is available on the command line:
+
 ```text
 Usage: logilica-cli [OPTIONS] COMMAND [ARGS]...
 
@@ -80,6 +79,7 @@ Commands:
 ```
 
 ```text
+logilica-cli weekly-report --help
 Usage: logilica-cli weekly-report [OPTIONS]
 
   Downloads and processes weekly report for teams specified in the
@@ -90,9 +90,11 @@ Options:
                                   Name  [env var: LOGILICA_DOMAIN; required]
   -t, --downloads-temp-dir DIRECTORY
                                   Path to a directory to receive downloaded
-                                  files (will be created if it doesn't exist;
-                                  will be deleted if created)  [default:
-                                  ./lwr_downloaded_pdfs]
+                                  files (if unspecified, a temporary directory
+                                  will be used; otherwise, the specified
+                                  directory will be created if it doesn't
+                                  exist; if the directory is created by the
+                                  tool, it will be deleted after the run)
   -I, --input [logilica|local]    Input source -- download from Logilica or
                                   use pre-downloaded files  [default:
                                   logilica]
@@ -161,7 +163,35 @@ Options:
                                   var: LOGILICA_EMAIL]
   --help                          Show this message and exit.
 ```
+
 Some dashboards can be quite slow to load into the UI, so, if you are running
 the tool interactively and wish to track its progress, add a `-v` to the command
-line to see informational messages.  (If you are debugging or just nosy, adding
+line to see informational messages. (If you are debugging or just nosy, adding
 a _second_ `-v` will add debugging messages to the output.)
+
+## Development
+
+If you are doing development on the tool, you may want to specify `-e` in the `pip install` command to install it in editable mode.
+This means that you can make changes to the package's source code and those changes will be reflected in your project without having to reinstall the package.
+
+For details on debugging the web interactions, see the `--pwdebug` option in the command help and the [Playwright documentation](https://playwright.dev/python/docs/running-tests).
+
+### Linting and formatting rules
+
+This project uses `pre-commit` to handle linting and formatting. The `pre-commit` tool reads its configuration from [`.pre-commit-config.yaml`](./.pre-commit-config.yaml) and the configuration options for the individual linters and formatters can be found in the [`pyproject.toml`](./pyproject.toml) file.
+The same configuration is used in CI.
+
+To install and execute it locally, follow these steps:
+
+```
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files --hook-stage [pre-commit|manual]
+```
+
+If you run `pre-commit` stage, you can check your files, if you run `manual` stage, it will modify your files to correct problems it finds.
+
+### Enabling Red Hat InfoSec plugin
+
+If you are developing locally within Red Hat, you should enable Red Hat InfoSec plugin. You can do that by uncommenting appropriate lines in `.pre-commit-config.yaml` file.
+Make sure that you don't commit that change back upstream, as it would break the CI.

@@ -26,7 +26,8 @@ class NavigationPanel:
 
         link_locator = self.page.get_by_role("link", name=link_name)
 
-        # if dropdown argument was provided, check if dropdown is open as it hides the link
+        # If dropdown argument was provided, check if dropdown is open as
+        # it hides the link
         if menu_dropdown:
             for first_try in (True, False):
                 try:

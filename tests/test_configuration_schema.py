@@ -133,7 +133,10 @@ def generate_extraneous_keys() -> Generator[dict[str, Any], None, None]:
         "integrations": {
             next(iter(FULL_CONFIG["integrations"])): {e_key: "extraneous_value"}
         },
-        "config": {e_key: "extraneous_value", "google": {e_key: "extraneous_value"}},
+        "config": {
+            e_key: "extraneous_value",
+            "google": {e_key: "extraneous_value"},
+        },
     }
 
     # Create a copy of the configuration which the inner function will modify
@@ -335,7 +338,6 @@ def generate_bad_types() -> Generator[dict[str, Any], None, None]:
 
 
 class TestConfigurationSchema(unittest.TestCase):
-
     def test_valid_configurations(self):
         count = 0
 

@@ -10,7 +10,6 @@ import pymupdf
 
 
 class PDFExtract:
-
     def __init__(self, scale: float = 1.0):
         """Encapsulation of PDF extraction."""
 

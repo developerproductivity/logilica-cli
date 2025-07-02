@@ -1,6 +1,3 @@
-autoflake
-black
 coverage[toml]
-docformatter
-flake8
-isort
+pre-commit
+
