@@ -100,9 +100,11 @@ Options:
                                   Use SSO/OAuth dialog instead of specifying a
                                   username and password for Logilica access
                                   [default: email]
-  -O, --output, --output-type [gdoc|console|images-only|markdown|html|markdown-with-refs|html-with-refs]
+  -O, --output, --output-type [pdf|gdoc|console|images-only|markdown|html|markdown-with-refs|html-with-refs]
                                   Output format of how individual PDF file is
                                   processed:
+
+                                  pdf: Don't process files, keep PDFs.
 
                                   gdoc: HTML with an embedded image
                                   representing whole dashboard and stored as a
