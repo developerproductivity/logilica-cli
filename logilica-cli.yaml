@@ -4,15 +4,105 @@ teams:
     team_dashboards:
       Developer Practices Dashboard:
         filename: DPROD_Report.pdf
-        url: https://logilica.io/dashboard/023e570d-1398-458b-88e2-2c83ac6ad5c6?variables=W3sidmFyIjoiVGltZSIsInZhbCI6eyJkaW1lbnNpb24iOiJUaW1lIiwiZGF0ZVJhbmdlIjoiZnJvbSA5MCBkYXlzIGFnbyB0byBub3cifX1d&workstream=00000000b5cc5d88
+        url: https://logilica.io/dashboard/023e570d-1398-458b-88e2-2c83ac6ad5c6/view/ff871fb2c72a7f6893181ecfce648a337bcb3a2206507f1360311f181b40f028
   Sandbox Team:
     team_dashboards:
       Sandbox Team Dashboard:
         filename: SANDBOX_Report.pdf
-        url: https://logilica.io/dashboard/d76c9434-148d-4152-b2dd-49e095519dfd/view/e53574be95eb5f1574764f7a98bcca12efe030932919233f606d546bcd92df91
+        url: https://logilica.io/dashboard/c2205e85-034e-4209-b218-fcc37df00dea/view/f1765ec4d6f6b94e3d733a772734e6d9397a87d2236e8630d77a29fc258f3546
       Coding Velocity:
         filename: sandbox-coding.velocity.pdf
-        url: https://logilica.io/dashboard/76538369-1f54-4c99-bcf2-a3ffcc9d3270?variables=W3sidmFyIjoiUHJvamVjdC5uYW1lIiwidmFsIjp7Im1lbWJlciI6IlByb2plY3QubmFtZSIsIm9wZXJhdG9yIjoiZXF1YWxzIiwidmFsdWVzIjpbImdpdGh1Yi5jb20vY29kZXJlYWR5LXRvb2xjaGFpbi9ob3N0LW9wZXJhdG9yIiwiZ2l0aHViLmNvbS9jb2RlcmVhZHktdG9vbGNoYWluL21lbWJlci1vcGVyYXRvciIsImdpdGh1Yi5jb20vY29kZXJlYWR5LXRvb2xjaGFpbi9yZWdpc3RyYXRpb24tc2VydmljZSJdfX0seyJ2YXIiOiJUaW1lIiwidmFsIjp7ImRpbWVuc2lvbiI6IlRpbWUiLCJkYXRlUmFuZ2UiOiJmcm9tIDkwIGRheXMgYWdvIHRvIG5vdyJ9fSx7InZhciI6IlRlYW0ubmFtZSIsInZhbCI6eyJtZW1iZXIiOiJUZWFtLm5hbWUiLCJvcGVyYXRvciI6ImVxdWFscyIsInZhbHVlcyI6WyJLdWJlc2F3IFRlYW0iLCJTYW5kYm94IFRlYW0iXX19XQ%3D%3D&workstream=1867839813
+        url: https://logilica.io/dashboard/76538369-1f54-4c99-bcf2-a3ffcc9d3270/view/8c534ebaef3e65c99a6c0c8d314850624b72a0368c4cba4f0efc0e44498188ec
+  Kubesaw Team:
+    team_dashboards:
+      Sprint Planning Accuracy:
+        filename: KUBESAW_Report.pdf
+        url: https://logilica.io/dashboard/f42ddeac-8520-4709-bd36-5713c8e299d3/view/1a541be111c65d13e30b00b3d531b502e0376440b5f671dfdaafb633e44ce570
+  OpenShift Builds Team:
+    team_dashboards:
+      Ticket Lead Time:
+        filename: openshift-builds-team-ticket-lead-time.pdf
+        url: https://logilica.io/dashboard/db6a9a52-11cf-4e70-9407-ccfbe4de9fa2/view/ccc34077802c0c46d3481de34a0bd1ea1e03bc34f2643d60d2ff22cc65621c60
+      Ticket Velocity:
+        filename: openshift-builds-team-ticket-velocity.pdf
+        url: https://logilica.io/dashboard/e81ac5c1-7f8a-4583-81cc-341828b23c57/view/ccc34077802c0c46d3481de34a0bd1ea1e03bc34f2643d60d2ff22cc65621c60
+      Ticket Overload:
+        filename: openshift-builds-team-ticket-overload.pdf
+        url: https://logilica.io/dashboard/a15855a7-b2b2-43c5-97c7-293d0308b7ec/view/720eb5ecb997123cf3865b283731fea40eea8335417c3b6b5a02df59e73c9fca
+      Sprint Health:
+        filename: openshift-builds-team-sprint-health.pdf
+        url: https://logilica.io/dashboard/4b33549c-b46a-4672-a923-b2cd51d77e93/view/33b4e3bb4712b0299ea4acfc16f4bec870923df7a65b3db2d002c764caa893e1
+      Ticket Risks:
+        filename: openshift-builds-team-ticket-risks.pdf
+        url: https://logilica.io/pm_issues/view/729ca34f9cbaf181406d1845dc21921f0bea6eeec37ff85b857d4ef1a83286d6
+      Code Cycle Time:
+        filename: openshift-builds-team-code-cycle-time.pdf
+        url: https://logilica.io/dashboard/43814594-4df8-417f-8c7c-e7f9613954a8/view/c1ffb35a59438b434c91f603c1584d37cad51d064d136024ded9ea2ba7b6fcf2
+      Coding Velocity:
+        filename: openshift-builds-team-coding-velocity.pdf
+        url: https://logilica.io/dashboard/76538369-1f54-4c99-bcf2-a3ffcc9d3270/view/c1ffb35a59438b434c91f603c1584d37cad51d064d136024ded9ea2ba7b6fcf2
+      Review Process:
+        filename: openshift-builds-team-review-process.pdf
+        url: https://logilica.io/dashboard/0ae659f2-6b40-4ad0-83aa-d570c164f8d0/view/c1ffb35a59438b434c91f603c1584d37cad51d064d136024ded9ea2ba7b6fcf2
+      Developer Health:
+        filename: openshift-builds-team-developer-health.pdf
+        url: https://logilica.io/dashboard/e536ae85-448d-49b5-a8a2-6036de650182/view/c1ffb35a59438b434c91f603c1584d37cad51d064d136024ded9ea2ba7b6fcf2
+      Code Risks:
+        filename: openshift-builds-team-code-risks.pdf
+        url: https://logilica.io/pull_request/view/5ce82166b5e80296a3c6d5ab7599a36ab9318820fed8e5c3b707ed4f08c95a38
+      CI Overview:
+        filename: openshift-builds-team-ci-overview.pdf
+        url: https://logilica.io/dashboard/3f545f0f-a5d8-4771-a006-1c9a0cd05707/view/39e06a76252511d87923ddf8beb63a48277f873ae08027c6831db31361590b7c
+      Teams Overview:
+        filename: openshift-builds-team-teams-overview.pdf
+        url: https://logilica.io/dashboard/1fc86f71-779a-43f0-be24-a9b893981c30/view/a7576614518beefae93ebfb141d725e436b8146e36f96f28573667153f7c3d1c
+      Team Pulse:
+        filename: openshift-builds-team-team-pulse.pdf
+        url: https://logilica.io/dashboard/bd912ffc-564f-45b6-b7d9-393296320590/view/010c8cbc93850aac954f80ba945b34d0ee4df8930b75043dff1d0461f369f3a9
+      Team Activity:
+        filename: openshift-builds-team-team-activity.pdf
+        url: https://logilica.io/standup/view/422b2e74d17ba0d748bfd1f7cc9fdf597e2a55ee87423cd8470baf4a09af1001
+  Podman Desktop Team:
+    team_dashboards:
+      Ticket Lead Time:
+        filename: podman-desktop-team-ticket-lead-time.pd
+        url: https://logilica.io/dashboard/db6a9a52-11cf-4e70-9407-ccfbe4de9fa2/view/1f4e4967adae4ff43a2ef5fee4d065863987bc6e369042906247c6efd67fafdc
+      Ticket Velocity:
+        filename: podman-desktop-team-ticket-velocity.pdf
+        url: https://logilica.io/dashboard/db6a9a52-11cf-4e70-9407-ccfbe4de9fa2/view/1f4e4967adae4ff43a2ef5fee4d065863987bc6e369042906247c6efd67fafdc
+      Ticket Overload:
+        filename: podman-desktop-team-ticket-overload.pdf
+        url: https://logilica.io/dashboard/a15855a7-b2b2-43c5-97c7-293d0308b7ec/view/af97171d65568c0f386d858dce031f820c626fb2bf34a022064ecdcfc17ebd01
+      Sprint Health:
+        filename: podman-desktop-team-sprint-health.pdf
+        url: https://logilica.io/dashboard/4b33549c-b46a-4672-a923-b2cd51d77e93/view/a9e98db1372c91102f15e5a9d47108e0b9740a420f6aba22134b1d09192bdef0
+      Ticket Risks:
+        filename: podman-desktop-team-ticket-risks.pdf
+        url: https://logilica.io/pm_issues/view/eecab48933198eaca22c74b8376a93f994aa4326dd4049e2e08b5eb5a7640a5b
+      Code Cycle Time:
+        filename: podman-desktop-team-code-cycle-time.pdf
+        url: https://logilica.io/dashboard/43814594-4df8-417f-8c7c-e7f9613954a8/view/dbaeb584e4b86a3da6100901d9c94a29bf1cdd64d8dbcff0483b716cab66150a
+      Coding Velocity:
+        filename: podman-desktop-team-coding-velocity.pdf
+        url: https://logilica.io/dashboard/76538369-1f54-4c99-bcf2-a3ffcc9d3270/view/4174267319b3bac3ca5918fdf187297b2dd79cfb776a720f479ef65e1ec6956a
+      Review Process:
+        filename: podman-desktop-team-review-process.pdf
+        url: https://logilica.io/dashboard/0ae659f2-6b40-4ad0-83aa-d570c164f8d0/view/4174267319b3bac3ca5918fdf187297b2dd79cfb776a720f479ef65e1ec6956a
+      Developer Health:
+        filename: podman-desktop-team-developer-health.pdf
+        url: https://logilica.io/dashboard/e536ae85-448d-49b5-a8a2-6036de650182/view/4174267319b3bac3ca5918fdf187297b2dd79cfb776a720f479ef65e1ec6956a
+      Code Risks:
+        filename: podman-desktop-team-code-risks.pdf
+        url: https://logilica.io/pull_request/view/bbe8a4020c0b879f156900bb28c679575d40bdadcd8fb165da70cab8743ac8fa
+      CI Overview:
+        filename: podman-desktop-team-ci-overview.pdf
+        url: https://logilica.io/dashboard/3f545f0f-a5d8-4771-a006-1c9a0cd05707/view/26ab9b52736e6f3c1272627c19ceafaf1348d49b6a7e9968e9ea5318e0b5a83e
+      # Team Pulse:
+      #  filename: podman-desktop-team-team-pulse.pdf
+      #  url: https://logilica.io/dashboard/bd912ffc-564f-45b6-b7d9-393296320590/view/2d4dce7366a3aae2bee64133aea69d32168fc446f4e44f303faf92125d87eb93
+      Team Activity:
+        filename: podman-desktop-team-team-activity.pdf
+        url: https://logilica.io/standup/view/c7b9374a51a176659e972c8060c0ef09f59d05f1a6f3f4802016a6e99e48d9df
   RHDH teams:
     team_dashboards:
       Ticket Lead Time:
@@ -55,8 +145,8 @@ teams:
         filename: rhdh-team-activity.pdf
         url: https://logilica.io/standup?chartId=40f04dce-01fc-4d86-aebe-3d2be1a677ca&variables=W3sidmFyIjoiVGVhbS5uYW1lIiwidmFsIjp7Im1lbWJlciI6IlRlYW0ubmFtZSIsIm9wZXJhdG9yIjoiZXF1YWxzIiwidmFsdWVzIjpbIlJIREggQ29yZSBUZWFtIiwiUkhESCBEeW5hbWljIFBsdWdpbnMgVGVhbSIsIlJIREggSW5zdGFsbCBUZWFtIiwiUkhESCBQbHVnaW5zIFRlYW0iLCJSSERIIFBsdWdpbnMvQUkgLSBVSSBUZWFtIiwiUkhESCBTZWN1cml0eSBUZWFtIiwiUkhESCBVSSBUZWFtIl19fSx7InZhciI6IlRpbWUiLCJ2YWwiOnsiZGltZW5zaW9uIjoiVGltZSIsImRhdGVSYW5nZSI6ImZyb20gMzAgZGF5cyBhZ28gdG8gbm93In19XQ%3D%3D&workstream=00000000004efddf
       # RHDH Team Dashboard:
-      #   filename: rhdh-teams-dashboard.pdf
-      #   url: https://logilica.io/dashboard/69f12907-3d84-4e8e-9a2a-1d4b4f5aeafc?variables=W3sidmFyIjoiVGltZSIsInZhbCI6eyJkaW1lbnNpb24iOiJUaW1lIiwiZGF0ZVJhbmdlIjoiZnJvbSA5MCBkYXlzIGFnbyB0byBub3cifX0seyJ2YXIiOiJKaXJhUHJvamVjdC5uYW1lIiwidmFsIjp7Im1lbWJlciI6IkppcmFQcm9qZWN0Lm5hbWUiLCJvcGVyYXRvciI6ImVxdWFscyIsInZhbHVlcyI6WyJpc3N1ZXMucmVkaGF0LmNvbS9SSERIQlVHUyIsImlzc3Vlcy5yZWRoYXQuY29tL1JIREhQQUkiLCJpc3N1ZXMucmVkaGF0LmNvbS9SSElEUCJdfX0seyJ2YXIiOiJUZWFtLm5hbWUiLCJ2YWwiOnsibWVtYmVyIjoiVGVhbS5uYW1lIiwib3BlcmF0b3IiOiJlcXVhbHMiLCJ2YWx1ZXMiOlsiUkhESCBDb3JlIFRlYW0iLCJSSERIIER5bmFtaWMgUGx1Z2lucyBUZWFtIiwiUkhESCBJbnN0YWxsIFRlYW0iLCJSSERIIFBsdWdpbnMgVGVhbSIsIlJIREggUGx1Z2lucy9BSSAtIFVJIFRlYW0iLCJSSERIIFNlY3VyaXR5IFRlYW0iLCJSSERIIFVJIFRlYW0iXX19XQ%3D%3D
+      #  filename: rhdh-teams-dashboard.pdf
+      #  url: https://logilica.io/dashboard/69f12907-3d84-4e8e-9a2a-1d4b4f5aeafc/view/39fde27dbcd66ec590decc0a2dd7023bf83939341774812754c1790967b9e74f
 integrations:
   "Developer Productivity":
     connector: Jira
