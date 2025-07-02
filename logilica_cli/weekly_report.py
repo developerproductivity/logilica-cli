@@ -48,6 +48,7 @@ from logilica_cli.update_gdoc import (
     "-O",
     type=click.Choice(
         [
+            "pdf",
             "gdoc",
             "console",
             "images-only",
@@ -61,6 +62,8 @@ from logilica_cli.update_gdoc import (
     default="gdoc",
     show_default=True,
     help="""Output format of how individual PDF file is processed:
+
+    pdf: Don't process files, keep PDFs.
 
     gdoc: HTML with an embedded image representing whole dashboard and stored
     as a Google Doc on Google Drive
@@ -166,6 +169,9 @@ def weekly_report(
                 dashboard_page.download_team_dashboards(
                     teams=configuration["teams"], base_dir_path=downloads_temp_dir
                 )
+
+        if output == "pdf":
+            return
 
         converter = PDFConvert(
             output_dir_path=output_dir_path,
