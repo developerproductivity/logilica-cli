@@ -10,11 +10,7 @@ from logilica_cli.playwright_session import LogilicaSession
 @common_options
 @click.pass_context
 def data_sources(
-    context: click.Context,
-    username: str,
-    password: str,
-    domain: str,
-    oauth: bool,
+    context: click.Context, username: str, password: str, domain: str, oauth: bool
 ) -> None:
     """Synchronizes configuration of integrations with the configuration file.
 

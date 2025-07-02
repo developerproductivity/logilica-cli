@@ -167,7 +167,8 @@ def weekly_report(
             with LogilicaSession(oauth, logilica_credentials) as page:
                 dashboard_page = DashboardPage(page=page)
                 dashboard_page.download_team_dashboards(
-                    teams=configuration["teams"], base_dir_path=downloads_temp_dir
+                    teams=configuration["teams"],
+                    base_dir_path=downloads_temp_dir,
                 )
 
         if output == "pdf":
@@ -178,7 +179,12 @@ def weekly_report(
             download_dir_path=downloads_temp_dir,
             scale=scale,
         )
-        if output in ("markdown", "html", "markdown-with-refs", "html-with-refs"):
+        if output in (
+            "markdown",
+            "html",
+            "markdown-with-refs",
+            "html-with-refs",
+        ):
             o_format = output.removesuffix("-with-refs")
             embed_images = not output.endswith("-with-refs")
             converter.to_format_multiple(
@@ -188,7 +194,8 @@ def weekly_report(
             )
         else:
             pdf_items = PDFExtract(scale=scale).get_pdf_objects(
-                teams=configuration["teams"], download_dir_path=downloads_temp_dir
+                teams=configuration["teams"],
+                download_dir_path=downloads_temp_dir,
             )
             if output == "images-only":
                 converter.to_images(pdf_items=pdf_items)

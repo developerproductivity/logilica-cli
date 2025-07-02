@@ -101,7 +101,9 @@ def upload_doc(doc: str, creds: Credentials, config: dict[str, any]) -> str:
             if status:
                 logging.debug("Uploaded %d%%.", int(status.progress() * 100))
         logging.debug(
-            'File "%s" with ID "%s" has been uploaded.', filename, response.get("id")
+            'File "%s" with ID "%s" has been uploaded.',
+            filename,
+            response.get("id"),
         )
 
     except HttpError as error:

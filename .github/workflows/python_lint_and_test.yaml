@@ -20,8 +20,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip'
-          cache-dependency-path: '**/requirements.txt'
+          cache: "pip"
+          cache-dependency-path: "**/requirements.txt"
           # architecture: x64
       - name: Install dependencies
         run: |
@@ -32,16 +32,8 @@ jobs:
       - name: Run python style and linting tools
         run: |
           err=0
-          echo autoflake:
-          autoflake --check-diff . || err=$?
-          echo black:
-          black --check . || err=$?
-          echo docformatter:
-          docformatter . || err=$?
-          echo flake8:
-          flake8 . || err=$?
-          echo isort:
-          isort --check . || err=$?
+          pre-commit install
+          pre-commit run --all-files --hook-stage pre-commit || err=$?
           exit $err
       - name: Run tests with coverage
         run: |
