@@ -7,17 +7,12 @@ teams:
         url: https://logilica.io/dashboard/023e570d-1398-458b-88e2-2c83ac6ad5c6?variables=W3sidmFyIjoiVGltZSIsInZhbCI6eyJkaW1lbnNpb24iOiJUaW1lIiwiZGF0ZVJhbmdlIjoiZnJvbSA5MCBkYXlzIGFnbyB0byBub3cifX1d&workstream=00000000b5cc5d88
   Sandbox Team:
     team_dashboards:
-      Red Hat Outcomes:
+      Sandbox Team Dashboard:
         filename: SANDBOX_Report.pdf
-        url: https://logilica.io/dashboard/c2205e85-034e-4209-b218-fcc37df00dea?variables=W3sidmFyIjoiSmlyYVByb2plY3QubmFtZSIsInZhbCI6eyJtZW1iZXIiOiJKaXJhUHJvamVjdC5uYW1lIiwib3BlcmF0b3IiOiJlcXVhbHMiLCJ2YWx1ZXMiOlsiaXNzdWVzLnJlZGhhdC5jb20vU0FOREJPWCJdfX1d&workstream=00000000b5cc5d88
+        url: https://logilica.io/dashboard/d76c9434-148d-4152-b2dd-49e095519dfd/view/e53574be95eb5f1574764f7a98bcca12efe030932919233f606d546bcd92df91
       Coding Velocity:
         filename: sandbox-coding.velocity.pdf
         url: https://logilica.io/dashboard/76538369-1f54-4c99-bcf2-a3ffcc9d3270?variables=W3sidmFyIjoiUHJvamVjdC5uYW1lIiwidmFsIjp7Im1lbWJlciI6IlByb2plY3QubmFtZSIsIm9wZXJhdG9yIjoiZXF1YWxzIiwidmFsdWVzIjpbImdpdGh1Yi5jb20vY29kZXJlYWR5LXRvb2xjaGFpbi9ob3N0LW9wZXJhdG9yIiwiZ2l0aHViLmNvbS9jb2RlcmVhZHktdG9vbGNoYWluL21lbWJlci1vcGVyYXRvciIsImdpdGh1Yi5jb20vY29kZXJlYWR5LXRvb2xjaGFpbi9yZWdpc3RyYXRpb24tc2VydmljZSJdfX0seyJ2YXIiOiJUaW1lIiwidmFsIjp7ImRpbWVuc2lvbiI6IlRpbWUiLCJkYXRlUmFuZ2UiOiJmcm9tIDkwIGRheXMgYWdvIHRvIG5vdyJ9fSx7InZhciI6IlRlYW0ubmFtZSIsInZhbCI6eyJtZW1iZXIiOiJUZWFtLm5hbWUiLCJvcGVyYXRvciI6ImVxdWFscyIsInZhbHVlcyI6WyJLdWJlc2F3IFRlYW0iLCJTYW5kYm94IFRlYW0iXX19XQ%3D%3D&workstream=1867839813
-  Kubesaw Team:
-    team_dashboards:
-      Sprint Planning Accuracy:
-        filename: KUBESAW_Report.pdf
-        url: https://logilica.io/dashboard/f42ddeac-8520-4709-bd36-5713c8e299d3?variables=W3sidmFyIjoiSmlyYVByb2plY3QubmFtZSIsInZhbCI6eyJtZW1iZXIiOiJKaXJhUHJvamVjdC5uYW1lIiwib3BlcmF0b3IiOiJlcXVhbHMiLCJ2YWx1ZXMiOlsiaXNzdWVzLnJlZGhhdC5jb20vS1VCRVNBVyJdfX0seyJ2YXIiOiJUaW1lIiwidmFsIjp7ImRpbWVuc2lvbiI6IlRpbWUiLCJkYXRlUmFuZ2UiOiJmcm9tIDkwIGRheXMgYWdvIHRvIG5vdyJ9fV0%3D&workstream=00000000b5cc5d88
   RHDH teams:
     team_dashboards:
       Ticket Lead Time:
@@ -74,8 +69,6 @@ integrations:
       - issues.redhat.com/DPROD
       - issues.redhat.com/HCEPERF
       - issues.redhat.com/KUBESAW
-      - issues.redhat.com/OCPBUGS
-      - issues.redhat.com/ODC
       - issues.redhat.com/PODMAND
       - issues.redhat.com/PSINFRA
       - issues.redhat.com/RHDHBUGS
@@ -334,7 +327,6 @@ integrations:
       - eclipse-jdtls/eclipse-jdt-core-incubator
       - eclipse-jdtls/eclipse.jdt.ls
       - eclipse-lsp4mp/lsp4mp
-      - openshift/console
       - orgs/podman-desktop
       - podman-desktop/e2e
       - podman-desktop/extension-bootc
