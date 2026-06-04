@@ -1,5 +1,5 @@
 click~=8.1.0
-docling~=2.25.2
+docling~=2.97.0
 google-api-python-client~=2.159.0
 google-auth-oauthlib~=1.2.1
 platformdirs~=4.3.6
